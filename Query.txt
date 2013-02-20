@@ -1,0 +1,1 @@
+Select ResID,PostName,PostGroup,PayScale,Category,Fees,Vacancies From eRecruitment_Posts P,eRecruitment_Categories C,eRecruitment_Reserved R Where P.PostID=R.PostID AND C.CatgID=R.CatgID
