@@ -10,10 +10,12 @@ if (strlen($_SESSION['AppID'])>0)
 function ShowPDF($pdf,$Pos=0)
 {
 	$Data=new DB();
-	$Query="Select AppMobile,Fees from ".MySQL_Pre."Applications A,".MySQL_Pre."Reserved R Where A.ResID=R.ResID AND AppID={$_SESSION['AppID']}";
+	$Query="Select AppMobile,Fees from ".MySQL_Pre."Applications A,".MySQL_Pre."Reserved R,".MySQL_Pre."AppIDs P "
+				."Where A.ResID=R.ResID AND P.AppSlNo=A.AppID AND P.AppID='{$_SESSION['AppID']}'";
 	$Data->do_sel_query($Query);
-	$FeesAmount=200;
-	$AppMobile=9733176510;
+	$Row=$Data->get_row();
+	$FeesAmount=$Row['Fees'];
+	$AppMobile=$Row['AppMobile'];
 	$pdf->SetTitle("Pay-In-Slip");
 	if($Pos==0)
 	$pdf->AddPage();
@@ -81,7 +83,14 @@ function ShowPDF($pdf,$Pos=0)
 	$pdf->Ln(5);
 	if($Pos==2)
 	{
-		$pdf->Output("Pay-in-Slip-[{$_SESSION['AppID']}].pdf","I");
+		/*$pdf->SetXY(0,20);
+		$pdf->SetFont('Courier','B',36);
+		$pdf->Cell(0,6,"Sample Copy Not To Be Used",0,0,"C");
+		$pdf->SetXY(0,100);
+		$pdf->Cell(0,6,"Sample Copy Not To Be Used",0,0,"C");
+		$pdf->SetXY(0,180);
+		$pdf->Cell(0,6,"Sample Copy Not To Be Used",0,0,"C");*/
+		$pdf->Output("Pay-in-Slip-[{$_SESSION['AppID']}].pdf","D");
 		unset($pdf);
 		exit();
 	}

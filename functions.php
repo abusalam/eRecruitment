@@ -27,6 +27,19 @@ function RsInWords($Amount)
 		case 25:
 			return "Twenty Five Only";
 			break;
+		default:
+			return "Sum of Amount Only";			
 	}
+}
+function InpSanitize($PostData){
+	$Fields="";
+	$Data=new DB();
+	foreach ($PostData as $FieldName => &$Value){
+		$Value=$Data->SqlSafe(htmlspecialchars($Value));
+		$Fields=$Fields."<br />".$FieldName;
+	}
+	unset($Value);
+	$PostData['Fields']=$Fields;
+	return $PostData;
 }
 ?>

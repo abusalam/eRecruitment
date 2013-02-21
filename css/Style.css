@@ -29,13 +29,46 @@ body {
 	line-height: 1;
 	font-size: 8px;
 }
+.FieldGroup{
+	float:left;
+	margin-top: 10px;
+	margin-left: 10px;
+	padding-left: 10px;
+}
+.CheckYes,.CheckNo{
+	font-weight:bold;
+	font-size:medium;
+	margin:10px 0px 10px 10px;
+	background-attachment: scroll;
+	background-repeat: no-repeat;
+	background-position: left;
+	padding:10px 0px 10px 52px;
+}
+.CheckYes{
+	background-image: url(../Images/check.png);
+}
+.CheckNo{
+	background-image: url(../Images/cross.png);
+}
+.FieldLabel{
+	font-weight:bold;
+	font-size:medium;
+	margin:4px 0px 0px 10px;
+}
+.ShowField{
+	border:1px Solid;
+	margin:4px 0px 10px 10px;
+	padding:0px 4px 4px 4px;
+	background-color: #FFF;
+	display:inline-block;
+}
 .content li {
 	padding-top: 6px;
 	padding-right: 0px;
 	padding-bottom: 6px;
 	padding-left: 0px;
 	list-style-position: inside;
-	list-style-image: url(..../Images/blackright.gif);
+	list-style-image: url(../Images/blackright.gif);
 	list-style-type: disc;
 	margin-left: 25px;
 }

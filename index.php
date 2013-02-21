@@ -26,10 +26,16 @@ initpage();
 	require_once("topmenu.php");
 ?>
 <div class="content">
-<h2>eRecruitment</h2>
-<p>Online applications will be available for submission from 20-Feb-2013 12pm onwards.</p>
-<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<h2>eRecruitment Post Details</h2>
 <p><b>Please Note:</b> <a href="http://paschimmedinipur.org">http://paschimmedinipur.org</a> is secondary website and can be visited for information whenever this website is not available due to technical reasons.</p>
+<?php
+	UniqueRandAlpha();
+	$Data=new DB();
+	$Qry="Select PostName,PostGroup,PayScale,Category,Fees,Vacancies From ".MySQL_Pre."Posts P,".MySQL_Pre."Categories C,".MySQL_Pre."Reserved R"
+			." Where P.PostID=R.PostID AND C.CatgID=R.CatgID";
+	$Data->ShowTable($Qry);
+	$Data->do_close();
+?>
 </div>
 <div class="pageinfo"><?php pageinfo(); ?></div>
 <div class="footer"><?php footerinfo();?></div>
