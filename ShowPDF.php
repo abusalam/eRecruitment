@@ -10,12 +10,13 @@ if (strlen($_SESSION['AppID'])>0)
 function ShowPDF($pdf,$Pos=0)
 {
 	$Data=new DB();
-	$Query="Select AppMobile,Fees from ".MySQL_Pre."Applications A,".MySQL_Pre."Reserved R,".MySQL_Pre."AppIDs P "
+	$Query="Select AppMobile,Fees,FiledOn from ".MySQL_Pre."Applications A,".MySQL_Pre."Reserved R,".MySQL_Pre."AppIDs P "
 				."Where A.ResID=R.ResID AND P.AppSlNo=A.AppID AND P.AppID='{$_SESSION['AppID']}'";
 	$Data->do_sel_query($Query);
 	$Row=$Data->get_row();
 	$FeesAmount=$Row['Fees'];
 	$AppMobile=$Row['AppMobile'];
+	$FiledOn="Aplication Submitted On: ".date("d/m/Y H:i:s A",strtotime($Row['FiledOn']));
 	$pdf->SetTitle("Pay-In-Slip");
 	if($Pos==0)
 	$pdf->AddPage();
@@ -79,8 +80,10 @@ function ShowPDF($pdf,$Pos=0)
 	$pdf->Ln(8);
 	$pdf->SetFont('Arial','',8);
 	$pdf->Cell(0,4,"__________________________________",0,1,"R");
-	$pdf->Cell(0,6,"Full Signature of Applicant             ",0,1,"R");
-	$pdf->Ln(5);
+	$pdf->Cell(0,4,"Full Signature of Applicant             ",0,1,"R");
+	$pdf->SetFont('Courier','B',6);
+	$pdf->Cell(120,4,$FiledOn,0,1,"L");
+	$pdf->Ln(3);
 	if($Pos==2)
 	{
 		/*$pdf->SetXY(0,20);
@@ -96,7 +99,7 @@ function ShowPDF($pdf,$Pos=0)
 	}
 	else {
 		$pdf->SetFont("Courier","",10);
-		$pdf->Cell(200,3,"------------------------------------------------------------------------------------------------------------",0,1,"C");
+		$pdf->Cell(0,3,"------------------------------------------------------------------------------------------------------------",0,1,"C");
 		$pdf->Ln(10);
 	}
 	

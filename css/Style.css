@@ -29,9 +29,24 @@ body {
 	line-height: 1;
 	font-size: 8px;
 }
+.Notice{
+	border: 1px dotted #003300;
+	background-color: #EAEAEA;
+	padding:10px;
+	margin: 0px 0px 5px 0px;
+	display:inline-block;
+}
+.Message{
+	font-size:large;
+	color:#99CC33;
+	border: 2px solid #7FAD29;
+	background-color: #666;
+	padding:5px;
+	margin: 0px 0px 5px 0px;
+	display:inline-block;
+}
 .FieldGroup{
 	float:left;
-	margin-top: 10px;
 	margin-left: 10px;
 	padding-left: 10px;
 }
@@ -49,6 +64,11 @@ body {
 }
 .CheckNo{
 	background-image: url(../Images/cross.png);
+}
+.RadioGroup{
+	font-weight:bold;
+	font-size:medium;
+	margin:4px 0px 10px 10px;
 }
 .FieldLabel{
 	font-weight:bold;

@@ -54,29 +54,29 @@ $(function() {
 	?>
 	<div class="content">
 		<?php
-		$Data=new DB();
-		echo "Count: ".$Data->do_max_query("Select count(*) from ".MySQL_Pre."AppIDs");
-		$Data->do_close();
-		require_once 'AppFormData-devel.php';
+		require_once 'AppFormData.php';
 		switch ($_SESSION['Step']){
 			case "Init":
 				?>
-				<h2>eRecruitment Application [For Testing Only]</h2>
+				<h2>eRecruitment Application</h2>
 				<p>
 					<b>Please Note: </b><a href="http://paschimmedinipur.org">http://paschimmedinipur.org</a>
 					is secondary website and can be visited for information whenever this
 					website is not available due to technical reasons.
 				</p>
 				<ol>
-				<li>Some Instructions</li>
-				<li>Some Instructions</li>
-				<li>Some Instructions</li>
-				<li>Some Instructions</li>
-				<li>Some Instructions</li>
+				<li>The appointment will initially be made on a purely temporary basis but is likely to be made permanent for all categories of posts.</li>
+				<li>In case of  candidates serving under Government. Applicant must have obtained <b>&ldquo;No Objection Certificate(NOC)&rdquo;</b> from Appointing Authority in writing.</li>
+				<li><b>Essential Qualification:</b> In respect of Groups: For all posts in Group-B &amp; C categories, the Candidate must  have passed Madhyamik or equivalent examination from any recognized Board and a Certificate in Computer Training from a recognized Institution and a satisfactory fingering speed in Computer operation.</li>
+				<li><b>In case of Process Server/Group-D category:</b> The candidate must have class VIII passed certificate from any recognized School or recognized Madrasah or any other recognized equivalent institution. </li>
+				<li><b>Eligibility Age:</b> Not less than 18 years and not more than 40 years as on 1st January, 2013 for all categories of posts. Relaxation of age limit for five years in case of candidates SC/ST category and for 3 years in case of candidates of OBC Category only. The upper age limit, in case of Physically Handicapped Candidate, is 43 years. Relaxation of age limit in case of Exserviceman Category as per existing government Rules.</li>
 				</ol>
 				<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-				<div><input id="InsTerm" name="InsTerm" type="checkbox" value="1" /> <label
-						for="InsTerm">I have read carefully and understood the instructions.</label>
+				<div class="FieldLabel">
+					<label for="InsTerm">
+					<input id="InsTerm" name="InsTerm" type="checkbox" value="1" /> 
+					<b>I have read carefully and understood the instructions.</b>
+					</label>
 					<input type="submit" value="Proceed" />
 				</div>	
 				</form>
@@ -84,10 +84,10 @@ $(function() {
 				break;
 			case "AppForm":
 				?>
-				<h2>eRecruitment Application Form [For Testing Only]</h2>
-				<p>
-					<b>Please Note: </b>All fields are mandatory. No modifications will be allowed after submission of this form.
-				</p>
+				<h2>eRecruitment Application Form</h2>
+				<?php ShowMsg(); ?>
+				<span class="Notice"><b>Please Note: </b>All fields are mandatory. No modifications will be allowed after submission of this form.</span>
+				<hr />
 				<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
 					<div class="FieldGroup">
 						<h3>Post Applied For</h3>
@@ -101,7 +101,7 @@ $(function() {
 					</div>
 					<div class="FieldGroup">
 					<h3>E-Mail Address:</h3>
-						<input type="text" name="AppEmail" />
+						<input type="text" name="AppEmail"  maxlength="50" />
 					</div>
 					<div class="FieldGroup">
 						<h3>Mobile No:</h3>
@@ -109,108 +109,130 @@ $(function() {
 					</div>
 					<div class="FieldGroup">
 						<h3>Educational Qualification:</h3>
-						<input type="text" name="AppQlf" maxlength="50" />
+						<input type="text" name="AppQlf" size="40" maxlength="80" />
 					</div>
 					<div style="clear:both;"></div>
 					<hr />
 					<div class="FieldGroup">
 						<h3>Applicant Name:</h3>
-						<input type="text" name="AppName" />
+						<input type="text" name="AppName" size="35" maxlength="50" />
 						<h3>Name of the Father/Husband:</h3>
-						<input type="text" name="GuardianName" />
+						<input type="text" name="GuardianName" size="35" maxlength="50" />
 						<h3>Date of Birth:</h3>
-						<input class="datepick" type="text" name="AppDOB" />
+						<input class="datepick" type="text" size="10" name="AppDOB" />
 						<h3>Sex (Male/Female):</h3>
-						<label><input type="radio" name="AppSex" Value="M">Male</label> <label><input
-							type="radio" name="AppSex" Value="F">Female</label>
+						<label><input type="radio" name="AppSex" value="M"/>Male</label> <label><input
+							type="radio" name="AppSex" value="F"/>Female</label>
 						<h3>Religion:</h3>
-							<input type="text" name="AppRel" />
+							<input type="text" name="AppRel"  size="20" maxlength="20" />
 						<h3>Caste:</h3>
-							<label><input type="radio" name="AppCaste" Value="Gen">General</label>
-							<label><input type="radio" name="AppCaste" Value="SC">SC</label>
-							<label><input type="radio" name="AppCaste" Value="ST">ST</label>
-							<label><input type="radio" name="AppCaste" Value="OBC">OBC</label>
+							<label><input type="radio" name="AppCaste" value="Gen"/>General</label>
+							<label><input type="radio" name="AppCaste" value="SC"/>SC</label>
+							<label><input type="radio" name="AppCaste" value="ST"/>ST</label>
+							<label><input type="radio" name="AppCaste" value="OBC"/>OBC</label>
 						<h3>Nationality:</h3>
-							<input type="text" name="AppNation" />
+							<input type="text" name="AppNation" size="10" maxlength="10" />
 					</div>
 					<div class="FieldGroup">
 						<h3>Present Address:</h3>
-							<textarea rows="5" name="AppPreA"></textarea>
+							<textarea rows="5" cols="30" name="AppPreA" maxlength="100"></textarea>
 						<h3>Pincode:</h3>
-							<input type="text" name="AppPrePin" />
+							<input type="text" name="AppPrePin" size="6" maxlength="6" />
 						<h3>Permanent Address:</h3>
-							<textarea rows="5" name="AppPerA"></textarea>
+							<textarea rows="5" cols="30" name="AppPerA" maxlength="100"></textarea>
 						<h3>Pincode:</h3>
-							<input type="text" name="AppPerPin" />
+							<input type="text" name="AppPerPin" size="6" maxlength="6" />
 					</div>
 					<div class="FieldGroup">
-						<h3>Physically Handicapped:</h3>
-							<label><input type="radio" name="AppPH" Value="1">Yes</label>
-							<label><input type="radio" name="AppPH" Value="0">No</label>
-						<br/><br/>
+						<h3>Are you physically challenged?</h3>
+						<div class="RadioGroup">
+							<label><input type="radio" name="AppPH" value="1"/>Yes</label>
+							<label><input type="radio" name="AppPH" value="0"/>No</label>
+						</div>
 						<h3>Have you any Knowledge in Computer?</h3>
-							<label><input type="radio" name="AppCS" Value="1">Yes</label>
-							<label><input type="radio" name="AppCS" Value="0">No</label>
-						<br/><br/>
+						<div class="RadioGroup">
+							<label><input type="radio" name="AppCS" value="1"/>Yes</label>
+							<label><input type="radio" name="AppCS" value="0"/>No</label>
+						</div>
 						<h3>Do you know ordinary Type-Writing?</h3>
-							<label><input type="radio" name="AppOT" Value="1">Yes</label>
-							<label><input type="radio" name="AppOT" Value="0">No</label>
-						<br/><br/>
+						<div class="RadioGroup">
+							<label><input type="radio" name="AppOT" value="1"/>Yes</label>
+							<label><input type="radio" name="AppOT" value="0"/>No</label>
+						</div>
 						<h3>Do you know Shorthand (English/Bengali)?</h3>
-							<label><input type="radio" name="AppSH" Value="1">Yes</label>
-							<label><input type="radio" name="AppSH" Value="0">No</label>
-						<br/><br/>
-						<h3>Are you a Govt. Servant?</h3>
-							<label><input type="radio" name="AppGS" Value="1">Yes</label>
-							<label><input type="radio" name="AppGS" Value="0">No</label>
-						<br/><br/>
+						<div class="RadioGroup">
+							<label><input type="radio" name="AppSH" value="1"/>Yes</label>
+							<label><input type="radio" name="AppSH" value="0"/>No</label>
+						</div>
+						<h3>Are you a Government Servant?</h3>
+						<div class="RadioGroup">
+							<label><input type="radio" name="AppGS" value="1"/>Yes</label>
+							<label><input type="radio" name="AppGS" value="0"/>No</label>
+						</div>
 						<h3>Do you have any Other Qualifications:</h3>
-							<label><input type="radio" name="AppOQ" Value="1">Yes</label>
-							<label><input type="radio" name="AppOQ" Value="0">No</label>
+						<div class="RadioGroup">
+							<label><input type="radio" name="AppOQ" value="1"/>Yes</label>
+							<label><input type="radio" name="AppOQ" value="0"/>No</label>
+						</div>
 					</div>
 					<div style="clear:both;"></div>
-					<div class="FieldGroup">
+					<hr/>
 					<h3>Declaration</h3>
-						<p><input name="ChkDeclr" type="checkbox" value="1" /> <label
-						for="ChkDecl">I, hereby declare that</label><br/>
-							(A) All statesment made in this application are true, complete and correct to the best of knowledge and belief.
+						<b>I, hereby declare that,</b>
+						<p><label for="ChkDecl"><input id="ChkDeclr" name="ChkDeclr" type="checkbox" value="1" /> 
+							All statesment made in this application are true, complete and correct to the best of knowledge and belief and in the event of any information being found false, my candidature is liable to be canceled.</label>
 						</p><br/>
 						<input type="submit" value="Submit" name="AppSubmit" />
-					</div>
 					<div style="clear:both;"></div>
 				</form>
 				<?php 
 				$Data->do_close();
 				break;
-			case "ShowData":
 			case "VerifyData":
 					?>
-					<h2>eRecruitment Application Form Verification [For Testing Only]</h2>
+					<h2>eRecruitment Application Form Verification</h2>
 					<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-					<div>
+					<div class="FieldGroup">
 					<div class="FieldLabel">Post Applied For:</div>
 					<span class="ShowField"><?php
 					$Data=new DB();
 					echo $Data->do_max_query("select CONCAT(PostName,' [',PostGroup,']-',Category) as ResName"
 					." from ".MySQL_Pre."Posts P,".MySQL_Pre."Categories C,".MySQL_Pre."Reserved R"
 					." Where P.PostID=R.PostID AND C.CatgID=R.CatgID AND ResID=".$Data->SqlSafe($_SESSION['PostData']['AppPostID']));
-					?></span><br/>
+					?></span>
+					</div>
+					<div class="FieldGroup">
+						<div class="FieldLabel">E-Mail Address:</div>
+						<span class="ShowField"><?php echo $_SESSION['PostData']['AppEmail'];?></span>
+					</div>
+					<div class="FieldGroup">
+						<div class="FieldLabel">Mobile No:</div>
+						<span class="ShowField"><?php echo $_SESSION['PostData']['AppMobile'];?></span>
+					</div>
+					<div class="FieldGroup">
+						<div class="FieldLabel">Educational Qualification:</div>
+						<span class="ShowField"><?php echo $_SESSION['PostData']['AppQlf'];?></span>
+					</div>
+					<div style="clear:both;"></div>
+					<hr />
+					<div class="FieldGroup">
 					<div class="FieldLabel">Applicant Name:</div>
 					<span class="ShowField"><?php echo $_SESSION['PostData']['AppName'];?></span><br/>
+					<div class="FieldLabel">Father/Husband Name:</div>
+					<span class="ShowField"><?php echo $_SESSION['PostData']['GuardianName'];?></span><br/>
 					<div class="FieldLabel">Date of Birth:</div>
-					<span class="ShowField"><?php echo $_SESSION['PostData']['AppDOB']; ?></span><br/>
-					<div class="FieldLabel">E-Mail Address:</div>
-					<span class="ShowField"><?php echo $_SESSION['PostData']['AppEmail'];?></span><br/>
-					<div class="FieldLabel">Mobile No:</div>
-					<span class="ShowField"><?php echo $_SESSION['PostData']['AppMobile'];?></span><br/>
+					<span class="ShowField"><?php echo date("d/m/Y",strtotime($_SESSION['PostData']['AppDOB'])); ?></span><br/>
 					<div class="FieldLabel">Sex(Male/Female):</div>
-					<span class="ShowField"><?php echo $_SESSION['PostData']['AppSex'];?></span><br/>
+					<span class="ShowField"><?php echo ($_SESSION['PostData']['AppSex']=="M")?"Male":"Female";?></span><br/>
 					<div class="FieldLabel">Religion:</div>
 					<span class="ShowField"><?php echo $_SESSION['PostData']['AppRel'];?></span><br/>
 					<div class="FieldLabel">Caste:</div>
 					<span class="ShowField"><?php echo $_SESSION['PostData']['AppCaste'];?></span><br/>
+					</div>
+					<div class="FieldGroup">
 					<div class="FieldLabel">Nationality:</div>
-					<span class="ShowField"><?php echo $_SESSION['PostData']['AppNation'];?></span><br/>
+					<span class="ShowField"><?php echo $_SESSION['PostData']['AppNation'];?></span>
+					
 					<div class="FieldLabel">Present Address:</div>
 					<pre><span class="ShowField"><?php echo str_replace("\\r\\n","\r\n",$_SESSION['PostData']['AppPreA']);?></span></pre><br/>
 					<div class="FieldLabel">Pincode:</div>
@@ -219,32 +241,42 @@ $(function() {
 					<pre><span class="ShowField"><?php echo str_replace("\\r\\n","\r\n",$_SESSION['PostData']['AppPerA']);?></span></pre><br/>
 					<div class="FieldLabel">Pincode:</div>
 					<span class="ShowField"><?php echo $_SESSION['PostData']['AppPerPin'];?></span><br/>
+					</div>
+					<div class="FieldGroup">
 					<div class="<?php echo ($_SESSION['PostData']['AppPH'])?"CheckYes":"CheckNo";?>">Are you Physically Challanged?</div>
 					<div class="<?php echo ($_SESSION['PostData']['AppCS'])?"CheckYes":"CheckNo";?>">Have you any Knowledge in Computer?</div>
 					<div class="<?php echo ($_SESSION['PostData']['AppOT'])?"CheckYes":"CheckNo";?>">Do you know ordinary Type-Writing?</div>
 					<div class="<?php echo ($_SESSION['PostData']['AppSH'])?"CheckYes":"CheckNo";?>">Do you know Shorthand (English/Bengali)?</div>
 					<div class="<?php echo ($_SESSION['PostData']['AppGS'])?"CheckYes":"CheckNo";?>">Are you a Govt. Servant?</div>
 					<div class="<?php echo ($_SESSION['PostData']['AppOQ'])?"CheckYes":"CheckNo";?>">Do you have any Other Qualifications?</div>
-					<br /> <input type="submit" value="<?php echo ($_SESSION['Step']=="ShowData")?"Verified All Data Please Proceed":"Print Challan"; ?>" name="AppSubmit" />
+					<br /> <input type="submit" value="Verified All Data Please Proceed" name="CmdVerify" />
 					</div>
+					<div style="clear:both;"></div>
 					</form>
 				<?php 
 				$Data->do_close();
 				break;
 			case "Print":
 				?>
-				<h2>eRecruitment Application Form [For Testing Only]</h2>
-				<p>
-					<b>Please Note: </b>Make sure that the Application ID is entered by the operator at Bank counter Instead of Applicant Name.
-				</p>
-				<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" target="_blank">
-				<div>
+				<h2>eRecruitment Print Challan</h2>
+				<?php ShowMsg();?>
+				<span class="Notice">
+				<b>Please Note: </b>The Applicant is instructed to deposit the necessary fees using the Bank Challan and make sure that the 
+				<b>&ldquo;Applicant ID&rdquo;</b> is entered by the Bank Operator at Bank Counter, Instead of Applicant Name.
+				</span>
+				
+				<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+				<div class="FieldGroup">
 					<input type="submit" value="Print Challan" name="CmdPrint" />
 				</div>
+				<div style="clear:both;"></div>
 				</form>
-				<?php 
+				<?php
 				break;
 		}
+		//$Data=new DB();
+		//echo "<br/><p>Count: ".$Data->do_max_query("Select count(*) from ".MySQL_Pre."AppIDs")."</p>";
+		//$Data->do_close();
 		//echo $_SESSION['Step']."<br/>".$_SESSION['Qry'].$_SESSION['PostData']['Fields'];
 		?>
 	</div>

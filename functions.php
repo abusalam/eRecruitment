@@ -28,7 +28,7 @@ function RsInWords($Amount)
 			return "Twenty Five Only";
 			break;
 		default:
-			return "Sum of Amount Only";			
+			return "Sum of Amount Only";
 	}
 }
 function InpSanitize($PostData){
@@ -36,10 +36,21 @@ function InpSanitize($PostData){
 	$Data=new DB();
 	foreach ($PostData as $FieldName => &$Value){
 		$Value=$Data->SqlSafe(htmlspecialchars($Value));
-		$Fields=$Fields."<br />".$FieldName;
+		//$Fields=$Fields."<br />".$FieldName;
+		if(($Value=="") ||(count($PostData)<23)){
+			$_SESSION['Msg']="<b>Message:</b> Some Fields left unfilled.";
+			$_SESSION['Step']="AppForm";
+		}
 	}
 	unset($Value);
-	$PostData['Fields']=$Fields;
+	//$PostData['Fields']=$Fields;
+	//echo "Total Fields:".count($PostData);
 	return $PostData;
+}
+function ShowMsg(){
+	if($_SESSION['Msg']!=""){
+		echo '<span class="Message">'.$_SESSION['Msg'].'</span><br/>';
+		$_SESSION['Msg']="";
+	}
 }
 ?>
