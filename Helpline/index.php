@@ -18,9 +18,7 @@ initpage();
 	<div class="TopPanel">
 		<div class="LeftPanelSide"></div>
 		<div class="RightPanelSide"></div>
-		<h1>
-			<?php echo AppTitle;?>
-		</h1>
+		<h1><?php echo AppTitle;?></h1>
 	</div>
 	<div class="Header"></div>
 	<?php 
@@ -28,11 +26,10 @@ initpage();
 	?>
 	<div class="content">
 		<h2>Helpline</h2>
+		<span class="Notice"><b>Please Note: </b>All Applicants are requested not to submit the online application more than once. We are getting a lot of queries so it will take some time to resolve the issues. Please bear with us.</span>
 		<?php 
 		include("../../captcha/securimage.php");
 		if($_POST['SendQry']=="Send Us Your Query")
-			$_SESSION['SendQry']=1;
-		if($_SESSION['SendQry'])
 			require_once("contact.php");
 		else
 		{
@@ -45,10 +42,7 @@ initpage();
 			<h3>Frequently Asked Questions:</h3>
 			<?php
 			$Data=new DB();
-			if($_REQUEST['AdminUpload']=='1')
-				$Data->do_sel_query("Select * from ".MySQL_Pre."Helpline");
-			else
-				$Data->do_sel_query("Select * from ".MySQL_Pre."Helpline where Replied");
+			$Data->do_sel_query("Select * from ".MySQL_Pre."Helpline where Replied=1");
 			while($row = $Data->get_row())
 			{
 				//'<a class="fb" id="ShowFeed'.$row['ID'].'" href="">'.$row['vname'].'</a>, '

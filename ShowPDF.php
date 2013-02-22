@@ -38,7 +38,7 @@ function ShowPDF($pdf,$Pos=0)
 	$pdf->Image("sbi_logo_main.gif",NULL,NULL,46);
 	$pdf->SetFont('Arial','',8);
 	$pdf->Cell(0,4,"................................................... Branch",0,0,"L");
-	$pdf->Cell(0,4,"Date ............................ 20.........   ",0,1,"R");
+	$pdf->Cell(0,4,"Date .......... / .......... 20 .......... Time .......... : .......... AM/PM ",0,1,"R");
 	$pdf->Ln(2);
 	$pdf->Cell(36,5,"Type of Account: SAVINGS",1,1,"L");
 	$pdf->Ln(2);
@@ -83,6 +83,12 @@ function ShowPDF($pdf,$Pos=0)
 	$pdf->Cell(0,4,"Full Signature of Applicant             ",0,1,"R");
 	$pdf->SetFont('Courier','B',6);
 	$pdf->Cell(120,4,$FiledOn,0,1,"L");
+	$X=$pdf->GetX();
+	$Y=$pdf->GetY();
+	$pdf->SetXY(50,$pdf->GetY()-52.5);
+	$pdf->SetFont('Arial','B',8);
+	$pdf->Cell(0,4,'Bank should enter "Applicant ID" in transaction remarks, Otherwise your Application will not be approved.',0,1,"R");
+	$pdf->SetXY($X,$Y);
 	$pdf->Ln(3);
 	if($Pos==2)
 	{

@@ -1,1 +1,2 @@
 Select ResID,PostName,PostGroup,PayScale,Category,Fees,Vacancies From eRecruitment_Posts P,eRecruitment_Categories C,eRecruitment_Reserved R Where P.PostID=R.PostID AND C.CatgID=R.CatgID
+SELECT AppMobile, ID.AppID FROM eRecruitment_Applications A, eRecruitment_AppIDs ID WHERE ID.AppSlNo = A.AppID ORDER BY A.AppID DESC

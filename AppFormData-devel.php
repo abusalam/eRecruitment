@@ -27,13 +27,29 @@ elseif (isset($_POST['CmdVerify']) && ($_POST['CmdVerify']=="Verified All Data P
 	$Data->do_close();
 	$_SESSION['Qry']=$Qry."[{$AppID}]-{$_SESSION['AppID']}";
 	if($Inserted>0){
-		$_SESSION['Msg']="<b>Message:</b> Application submitted successfully.";
+		$_SESSION['Msg']="<b>Message:</b> Your Application ID: {$_SESSION['AppID']}";
 		$_SESSION['Step']="Print";
 	}
 	else{
-		$_SESSION['Msg']="<b>Message:</b> Unable to submit your application.";
+		$_SESSION['Msg']="<b>Message:</b> Unable to submit your Application.";
 		$_SESSION['Step']="AppForm";
 	}
 	
+}
+if($_POST['CmdPrint']=="Search"){
+	$Data=new DB();
+	$_SESSION['AppID']=$Data->SqlSafe(htmlspecialchars($_POST['AppID']));
+	$Query="Select AppName,AppMobile,Fees,DOB,FiledOn from ".MySQL_Pre."Applications A,".MySQL_Pre."Reserved R,".MySQL_Pre."AppIDs P "
+			."Where A.ResID=R.ResID AND P.AppSlNo=A.AppID AND P.AppID='{$_SESSION['AppID']}' AND AppMobile='".$Data->SqlSafe(htmlspecialchars($_POST['AppMobile']))."'";
+	$Found=$Data->do_sel_query($Query);
+	if($Found>0){
+		$Row=$Data->get_row();
+		$_SESSION['Msg']="<b>Message:</b>Applicant: {$Row['AppName']}, Mobile:{$Row['AppMobile']}, Date of Birth: ".date("d/m/Y",strtotime($Row['DOB'])).".";
+		$_SESSION['Step']="Print";
+	}
+	else{
+		$_SESSION['Msg']="<b>Message:</b>Application not found!";
+		$_SESSION['Step']="Init";
+	}
 }
 ?>
