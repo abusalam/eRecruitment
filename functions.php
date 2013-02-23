@@ -35,7 +35,7 @@ function InpSanitize($PostData){
 	$Fields="";
 	$Data=new DB();
 	foreach ($PostData as $FieldName => &$Value){
-		$Value=$Data->SqlSafe(htmlspecialchars($Value));
+		$Value=$Data->SqlSafe($Value);
 		//$Fields=$Fields."<br />".$FieldName;
 		if(($Value=="") ||(count($PostData)<23)){
 			$_SESSION['Msg']="<b>Message:</b> Some Fields left unfilled.";

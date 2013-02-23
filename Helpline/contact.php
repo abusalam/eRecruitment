@@ -1,6 +1,6 @@
 <script type="text/JavaScript" src='contact.js'></script>
 <?php
-$reg=new DB();
+$Data=new DB();
 $img = new Securimage();
 $valid = $img->check($_POST['code']);
 if((!isset($_POST['v_name'])) || !$valid || (strlen($_POST['feed_txt'])>1024) || (strlen($_POST['v_name'])>50) || (strlen($_POST['v_email'])>50))
@@ -41,14 +41,14 @@ else
 {
 	echo '<h3>Thankyou for your valuable time and appreciation.</h3>';//.$message;
 
-	$nm=mysql_real_escape_string($_POST['v_name']);
-	$email=mysql_real_escape_string($_POST['v_email']);
-	$fd=mysql_real_escape_string($_POST['feed_txt']);
+	$nm=$Data->SqlSafe($_POST['v_name']);
+	$email=$Data->SqlSafe($_POST['v_email']);
+	$fd=$Data->SqlSafe($_POST['feed_txt']);
 
 	if(strlen($_POST['feed_txt'])<=1024 && strlen($_POST['v_email'])<=50 && strlen($_POST['v_name'])<=50)
-		$Submitted=$reg->do_ins_query("insert into ".MySQL_Pre."Helpline(IP,SessionID,AppName,AppEmail,TxtQry) values('".$_SERVER['REMOTE_ADDR']."','".$_SESSION['Client_SID']."','".$nm."','".$email."','".$fd."')");
+		$Submitted=$Data->do_ins_query("insert into ".MySQL_Pre."Helpline(IP,SessionID,AppName,AppEmail,TxtQry) values('".$_SERVER['REMOTE_ADDR']."','".$_SESSION['Client_SID']."','".$nm."','".$email."','".$fd."')");
 	if($Submitted>0)
-		$_SESSION['SendQry']=0;
+		$_SESSION['SendQry']="0";
 	else
 		echo "<h3>Unable to send request.</h3>";
 }

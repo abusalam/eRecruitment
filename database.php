@@ -21,7 +21,7 @@ class DB {
 	public function SqlSafe($StrValue)
 	{
 		$this->do_connect();
-		return mysql_real_escape_string($StrValue);
+		return mysql_real_escape_string(htmlspecialchars($StrValue));
 	}
 	public function do_ins_query($querystr)
 	{

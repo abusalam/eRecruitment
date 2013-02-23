@@ -26,34 +26,44 @@ initpage();
 	?>
 	<div class="content">
 		<h2>Helpline</h2>
-		<span class="Notice"><b>Please Note: </b>All Applicants are requested not to submit the online application more than once. We are getting a lot of queries so it will take some time to resolve the issues. Please bear with us.</span>
 		<?php 
 		include("../../captcha/securimage.php");
-		if($_POST['SendQry']=="Send Us Your Query")
-			require_once("contact.php");
+		if(($_POST['SendQry']=="Send Us Your Query") |($_SESSION['SendQry']=="1")){
+			$_SESSION['SendQry']="1";
+			require_once("contact.php");		
+		}	
 		else
 		{
 			?>
+			<span class="Notice"><b>Please Note: </b>All Applicants are requested not to submit the online application more than once. We are getting a lot of queries so it will take some time to resolve the issues. Please bear with us.</span>
 		<form method="post">
+		<div class="FieldGroup">
 			<h3>Have some doubt!</h3>
-			<p><b>Feel free to:</b><input name="SendQry" type="submit" value="Send Us Your Query" /></p>
+			<b>Feel free to:</b><input name="SendQry" type="submit" value="Send Us Your Query" />
+			</div>
 		</form>
-		<fieldset>
-			<h3>Frequently Asked Questions:</h3>
+		<div style="clear:both;"></div>
+		<br/>
+			<h2>Frequently Asked Questions:</h2>
 			<?php
 			$Data=new DB();
 			$Data->do_sel_query("Select * from ".MySQL_Pre."Helpline where Replied=1");
 			while($row = $Data->get_row())
 			{
-				//'<a class="fb" id="ShowFeed'.$row['ID'].'" href="">'.$row['vname'].'</a>, '
-				$ReplyTxt="<p><b>Reply:</b> <i>&ldquo;".htmlspecialchars($row['ReplyTxt'])."&rdquo;</i></p>";
-				echo '<hr /><b>'.htmlspecialchars($row['AppName']).'</b> Says: <div class="tdialog-modal" title="Asked by '.htmlspecialchars($row['AppName']).'">'
-					.'<p><i>&ldquo;'.htmlspecialchars($row['TxtQry']).'&rdquo;</i></p>'
-			.'<small>From IP: '.$row['IP'].' On: '.date("l d F Y g:i:s A ",strtotime($row['QryTime'])).' IST </small>'
-			.$ReplyTxt.'</div>';
+			?>
+				<hr />
+				<div class="Notice">
+				<b><?php echo htmlspecialchars($row['AppName']);?>:</b><br/>
+				<?php echo str_replace("\r\n","<br />",$row['TxtQry']); ?><br/>
+					<small><i><?php echo "From IP: {$row['IP']} On: ".date("l d F Y g:i:s A ",strtotime($row['QryTime']));?></i></small>
+				</div>
+				<div class="Notice">
+					<b>Reply:</b><p><i>&ldquo;<?php echo str_replace("\r\n","<br />",$row['ReplyTxt']);?>&rdquo;</i></p>
+				</div>
+			<?php 
 			}
 			?>
-		</fieldset>
+		<div style="clear:both;"></div>
 		<?php
 		}
 		?>

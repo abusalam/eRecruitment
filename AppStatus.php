@@ -33,9 +33,9 @@ initpage();
 <h3>Admits can also be downloaded from here once your application is accepted.</h3>
 <?php 
 $Data=new DB();
-$Qry="Select A.AppID as SlNo,AppName,GuardianName,Sex,FiledOn,ID.AppID as `Applicant ID` From ".MySQL_Pre."Applications A,".MySQL_Pre."AppIDs ID Where A.AppID=ID.AppSlNo Order by A.AppID desc Limit 10";
+$Qry="Select A.AppID as SlNo, ID.AppID as `Applicant ID`, AppName, GuardianName, Sex, FiledOn From ".MySQL_Pre."Applications A,".MySQL_Pre."AppIDs ID Where A.AppID=ID.AppSlNo Order by A.AppID desc Limit 10";
 $Data->ShowTable($Qry);
-echo "<br/><p>Count: ".$Data->do_max_query("Select count(*) from ".MySQL_Pre."AppIDs")."</p>";
+//echo "<br/><p>Count: ".$Data->do_max_query("Select count(*) from ".MySQL_Pre."AppIDs")."</p>";
 $Data->do_close();
 ?>
 </div>
