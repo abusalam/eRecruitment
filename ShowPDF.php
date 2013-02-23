@@ -49,14 +49,16 @@ function ShowPDF($pdf,$Pos=0)
 	$pdf->SetFont('Arial','',8);
 	$pdf->Cell(14,5,"Amount",1,0,"L");
 	$pdf->SetFont('Courier','B',8);
-	$pdf->Cell(20,5,"Rs.**{$FeesAmount}/-",1,1,"R");
+	//$pdf->Cell(20,5,"Rs.**{$FeesAmount}/-",1,1,"R");
+	$pdf->Cell(20,5,"            ",1,1,"R");
 	$pdf->Ln(4);
 	$pdf->SetFont('Arial','',10);
 	$pdf->Cell(4,6,"For the credit of the Bank account of ............................................................  "
 			."Rupees (in words) .................................",0,1,"L");
 	$pdf->SetXY(70,$pdf->GetY()-6.5);
 	$pdf->SetFont('Courier','B',8);
-	$pdf->Cell(4,6,"District Judge, Paschim Medinipur                    ".RsInWords($FeesAmount),0,1,"L");
+	//$pdf->Cell(4,6,"District Judge, Paschim Medinipur                    ".RsInWords($FeesAmount),0,1,"L");
+	$pdf->Cell(4,6,"District Judge, Paschim Medinipur                    ",0,1,"L");
 	$pdf->Ln(4);
 	$pdf->SetFont('Arial','',8);
 	$pdf->Cell(12,6,"Mobile",1,0,"L");
@@ -88,6 +90,9 @@ function ShowPDF($pdf,$Pos=0)
 	$pdf->SetXY(50,$pdf->GetY()-52.5);
 	$pdf->SetFont('Arial','B',8);
 	$pdf->Cell(0,4,'Bank should enter "Applicant ID" in transaction remarks, Otherwise your Application will not be approved.',0,1,"R");
+	$pdf->SetFont('Arial','B',8);
+	$pdf->Ln(2);
+	$pdf->Cell(0,4,'Bank Charges (if any) to be added with the fees.',0,1,"C");
 	$pdf->SetXY($X,$Y);
 	$pdf->Ln(3);
 	if($Pos==2)

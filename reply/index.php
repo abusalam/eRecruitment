@@ -1,4 +1,5 @@
 <?php 
+ini_set('display_errors','On');
 require_once( '../library.php'); 
 initpage();
 ?>
@@ -51,11 +52,11 @@ if($_REQUEST['AdminUpload']=='1')
 
 if($_REQUEST['AdminUpload']=='1'){
 	$Data->do_sel_query("Select 1;");
-	if(($_POST['ReplyTo']!="") && ($_POST['ReplyTxt']!="")){
+	if(isset($_POST['ReplyTo']) && ($_POST['ReplyTo']!="") && ($_POST['ReplyTxt']!="")){
 		$Query="Update ".MySQL_Pre."Helpline set Replied=".intval($_POST['ShowFAQ']).", ReplyTxt='".$Data->SqlSafe($_POST['ReplyTxt'])."' Where HelpID={$_POST['ReplyTo']}";
 		$Data->do_ins_query($Query);
 	}
-	$Data->do_sel_query("Select * from ".MySQL_Pre."Helpline Where not Replied");
+	$Data->do_sel_query("Select * from ".MySQL_Pre."Helpline Where Replied=0");
 }
 else
 	$Data->do_sel_query("Select * from ".MySQL_Pre."Helpline where Replied");
@@ -72,9 +73,6 @@ while($row = $Data->get_row()){
 ?>
 </fieldset>
 </div>
-<?php
-require_once("../bottommenu.php");
-?>
 <div class="pageinfo">
  <?php pageinfo(); ?>
 </div>
