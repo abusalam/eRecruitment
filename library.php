@@ -6,7 +6,7 @@ function initpage()
 	session_start();
 	$sess_id=md5(microtime());
 
-	$_SESSION['Debug']=$_SESSION['Debug']."InInitPage(".$_SESSION['Client_SID']."=".$_COOKIE['Client_SID'].")";
+	//$_SESSION['Debug']=$_SESSION['Debug']."InInitPage(".$_SESSION['Client_SID']."=".$_COOKIE['Client_SID'].")";
 	setcookie("Client_SID",$sess_id,(time()+(LifeTime*60)));
 	$_SESSION['Client_SID']=$sess_id;
 	$_SESSION['LifeTime']=time();
@@ -84,6 +84,14 @@ function footerinfo()
 	.'West Bengal - 721101 , India Phone : 91-3222-263506, Email: wbmdp(a)nic.in<br/>';
 	//."DB_SID: ".$_SESSION['ID']." ORG: ".session_id()." Cookie:".$_COOKIE['LMS_SID']." VALID=".$_SESSION['Validity']." | ".LifeTime.$_SESSION['LMS_AUTH'];
 }
+function GetVal($Array,$Index){
+	if(!isset($Array[$Index])){
+		return NULL;
+	}
+	else{
+		return $Array[$Index];
+	}
+}
 function ToDate($AppDate)
 {
 	if($AppDate!="")
@@ -98,32 +106,6 @@ function ToDBDate($AppDate)
 	else
 		return date("Y-m-d",strtotime($AppDate));
 }
-function CheckSess()
-{
-	$_SESSION['Debug']=$_SESSION['Debug']."InCheckSESS";
-	if((!isset($_SESSION['LoggedOfficerID'])) && (!isset($_SESSION['BlockCode'])))
-	{
-		return "Browsing";
-	}
-	if(isset($_REQUEST['LogOut']))
-	{
-		return "LogOut";
-	}
-	else if($_SESSION['LifeTime']<(time()-(LifeTime*60)))
-	{
-		return "TimeOut(".$_SESSION['LifeTime']."-".(time()-(LifeTime*60)).")";
-	}
-	else if($_SESSION['Client_SID']!=$_COOKIE['Client_SID'])
-	{
-		$_SESSION['Debug']="(".$_SESSION['Client_SID']."=".$_COOKIE['Client_SID'].")";
-		return "Stolen(".$_SESSION['Client_SID']."=".$_COOKIE['Client_SID'].")";
-	}
-	else
-	{
-		return "Valid";
-	}
-}
-
 function RandStr($length) {
 	$chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	$size = strlen($chars);
