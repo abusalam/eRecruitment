@@ -2,7 +2,7 @@
 require_once('MySQLServer.php');
 class DB {
 	public $conn;
-	public $result;
+	public $RecSet;
 	public $Debug;
 	public $RowCount;
 	public $ColCount;
@@ -26,8 +26,8 @@ class DB {
 	public function do_ins_query($querystr)
 	{
 		$this->do_connect();
-		$this->result = mysql_query($querystr,$this->conn);
-		if (!$this->result)
+		$this->RecSet = mysql_query($querystr,$this->conn);
+		if (!$this->RecSet)
 		{
 			$message = 'Error(database): ' . mysql_error();
 			//$message .= 'Whole query: '. $querystr."<br>";
@@ -44,7 +44,7 @@ class DB {
 	public function do_sel_query($querystr)
 	{
 		$this->do_connect();
-		$this->result = mysql_query($querystr,$this->conn);
+		$this->RecSet = mysql_query($querystr,$this->conn);
 		if (mysql_errno($this->conn))
 		{
 			if($this->Debug)
@@ -54,28 +54,28 @@ class DB {
 			return 0;
 		}
 		$this->NoResult=0;
-		$this->RowCount=mysql_num_rows($this->result);
-		$this->ColCount=mysql_num_fields($this->result);
+		$this->RowCount=mysql_num_rows($this->RecSet);
+		$this->ColCount=mysql_num_fields($this->RecSet);
 		return $this->RowCount;
 	}
 
 	public function get_row()
 	{
 		if(!$this->NoResult)
-			return mysql_fetch_assoc($this->result);
+			return mysql_fetch_assoc($this->RecSet);
 	}
 
 	public function get_n_row()
 	{
 		if (!$this->NoResult)
-			return mysql_fetch_row($this->result);
+			return mysql_fetch_row($this->RecSet);
 	}
 	public function GetFieldName($ColPos)
 	{
 		if(mysql_errno())
 			return "ERROR!";
 		else if($this->ColCount>$ColPos)
-			return mysql_field_name($this->result,$ColPos);
+			return mysql_field_name($this->RecSet,$ColPos);
 		else
 			return "Offset Error!";
 	}
@@ -85,7 +85,7 @@ class DB {
 		if(mysql_errno())
 			return "ERROR!";
 		else if($this->ColCount>$ColPos)
-			return mysql_field_table($this->result,$ColPos);
+			return mysql_field_table($this->RecSet,$ColPos);
 		else
 			return "Offset Error!";
 	}
@@ -125,13 +125,13 @@ class DB {
 		// Printing results in HTML
 		echo '<table rules="all" frame="box" width="100%" cellpadding="5" cellspacing="1">';
 		$i=0;
-		while ($i<mysql_num_fields($this->result))
+		while ($i<mysql_num_fields($this->RecSet))
 		{
-			echo '<th>'.htmlspecialchars(mysql_field_name($this->result,$i)).'</th>';
+			echo '<th>'.htmlspecialchars(mysql_field_name($this->RecSet,$i)).'</th>';
 			$i++;
 		}
 		$i=0;
-		while ($line = mysql_fetch_array($this->result, MYSQL_ASSOC))
+		while ($line = mysql_fetch_array($this->RecSet, MYSQL_ASSOC))
 		{
 			echo "\t<tr>\n";
 			foreach ($line as $col_value)
@@ -142,7 +142,7 @@ class DB {
 			$i++;
 		}
 		echo "</table>\n";
-		$this->do_close();
+		//$this->do_close();
 		return ($i);
 	}
 	public function ShowTableKiosk($QueryString)
@@ -153,13 +153,13 @@ class DB {
 		echo '<table rules="all" frame="box" width="100%" cellpadding="5" cellspacing="1" border="1">';
 		echo '<tr><td colspan="2" style="background-color:#F4A460;height:3px;border: 1px solid black;"></td></tr>';
 		$i=0;
-		while ($line = mysql_fetch_array($this->result, MYSQL_ASSOC))
+		while ($line = mysql_fetch_array($this->RecSet, MYSQL_ASSOC))
 		{
 			$i=0;
 			foreach ($line as $col_value)
 			{
 				echo "\t<tr>\n";
-				echo '<th  style="background-color:#FFDA91;font-weight:bold;text-align:left;border: 1px solid black;">'.htmlspecialchars(mysql_field_name($this->result,$i)).'</th>';
+				echo '<th  style="background-color:#FFDA91;font-weight:bold;text-align:left;border: 1px solid black;">'.htmlspecialchars(mysql_field_name($this->RecSet,$i)).'</th>';
 				echo "\t\t".'<td style="border: 1px solid black;">'.$col_value."</td>\n";
 				//$strdt=date("F j, Y, g:i:s a",$ntime);
 				//echo "\t\t<td>$strdt</td>\n";
@@ -176,7 +176,7 @@ class DB {
 	{
 		// Free resultset
 		if(!$this->NoResult)
-			mysql_free_result($this->result);
+			mysql_free_result($this->RecSet);
 		// Closing connection
 		mysql_close($this->conn);
 		//echo "<br />LastQuery: ".$LastQuery;
@@ -184,7 +184,7 @@ class DB {
 	function EditTableV2($QueryString)
 	{
 		$this->do_sel_query($QueryString);
-		echo "Total Records: ".mysql_num_rows($this->result)."\n<br />";
+		echo "Total Records: ".mysql_num_rows($this->RecSet)."\n<br />";
 		// Printing results in HTML
 		echo '<form name="frmData" method="post" action="'.htmlspecialchars($_SERVER['PHP_SELF'])
 		.'"><table rules="all" frame="box" cellpadding="5" cellspacing="1">';
@@ -193,35 +193,35 @@ class DB {
 		if(isset($_REQUEST['Delete']))
 		{
 			$Data=new DB();
-			$Query="Delete from ".mysql_field_table($this->result,0)
-			." Where ".mysql_field_name($this->result,0)."=".intval($_REQUEST['Delete'])." LIMIT 1;";
+			$Query="Delete from ".mysql_field_table($this->RecSet,0)
+			." Where ".mysql_field_name($this->RecSet,0)."=".intval($_REQUEST['Delete'])." LIMIT 1;";
 			//echo $Query;
 			$Data->do_ins_query($Query);
 			$this->do_sel_query($QueryString);
 			//echo 'Query failed: ' . mysql_error();
 		}
-		if(isset($_POST[mysql_field_name($this->result,$col)]))
+		if(isset($_POST[mysql_field_name($this->RecSet,$col)]))
 		{
 			$Data=new DB();
-			while ($col<mysql_num_fields($this->result))
+			while ($col<mysql_num_fields($this->RecSet))
 			{
 				$row=0;
-				//echo $r."--".mysql_field_name($this->result,$col)."--".mysql_field_table($this->result,$col)
-				//	.$_POST[mysql_field_name($this->result,$col)][$row];
-				while($row<count($_POST[mysql_field_name($this->result,$col)]))
+				//echo $r."--".mysql_field_name($this->RecSet,$col)."--".mysql_field_table($this->RecSet,$col)
+				//	.$_POST[mysql_field_name($this->RecSet,$col)][$row];
+				while($row<count($_POST[mysql_field_name($this->RecSet,$col)]))
 				{
-					$ColName=mysql_field_name($this->result,$col);
-					if (empty($_POST[mysql_field_name($this->result,$col)][$row]))
+					$ColName=mysql_field_name($this->RecSet,$col);
+					if (empty($_POST[mysql_field_name($this->RecSet,$col)][$row]))
 						$POSTVal="NULL";
 					elseif((substr($ColName,0,4)=="Date") && $POSTVal!="NULL")
 					{
-						$POSTVal="'".date("Y-m-d",strtotime($_POST[mysql_field_name($this->result,$col)][$row]))."' ";
+						$POSTVal="'".date("Y-m-d",strtotime($_POST[mysql_field_name($this->RecSet,$col)][$row]))."' ";
 					}
 					else
-						$POSTVal="'".mysql_real_escape_string($_POST[mysql_field_name($this->result,$col)][$row])."' ";
-					$Query="Update ".mysql_field_table($this->result,$col)
+						$POSTVal="'".mysql_real_escape_string($_POST[mysql_field_name($this->RecSet,$col)][$row])."' ";
+					$Query="Update ".mysql_field_table($this->RecSet,$col)
 					." Set ".$ColName."=".$POSTVal." "
-					." Where ".mysql_field_name($this->result,0)."=".mysql_real_escape_string($_POST[mysql_field_name($this->result,0)][$row])." LIMIT 1;";
+					." Where ".mysql_field_name($this->RecSet,0)."=".mysql_real_escape_string($_POST[mysql_field_name($this->RecSet,0)][$row])." LIMIT 1;";
 					//echo $Query."<br />";
 					$Data->do_ins_query($Query);
 					$row++;
@@ -236,7 +236,7 @@ class DB {
 		//Print Rows
 		$odd="";
 		$RecCount=0;
-		while ($line = mysql_fetch_array($this->result, MYSQL_ASSOC))
+		while ($line = mysql_fetch_array($this->RecSet, MYSQL_ASSOC))
 		{
 			$RecCount++;
 			$odd=$odd==""?"odd":"";
@@ -244,7 +244,7 @@ class DB {
 			$i=0;
 			foreach ($line as $col_value)
 			{
-				$ColName=mysql_field_name($this->result,$i);
+				$ColName=mysql_field_name($this->RecSet,$i);
 				echo '<tr><td><b>('.($i+1).') '.$ColName.'</b></td><td>';
 				if($i==0)
 				{
@@ -264,8 +264,8 @@ class DB {
 					//print_r(date_get_last_errors());
 				}
 
-				echo '('.($i+1).') <input '.$allow.' type="text" size="'.(mysql_field_len($this->result,$i))
-				.'" name="'.mysql_field_name($this->result,$i).'[]" value="'.$ColVal.'" /> </td></tr>';
+				echo '('.($i+1).') <input '.$allow.' type="text" size="'.(mysql_field_len($this->RecSet,$i))
+				.'" name="'.mysql_field_name($this->RecSet,$i).'[]" value="'.$ColVal.'" /> </td></tr>';
 				$i++;
 			}
 			echo '<tr><td colspan="2" style="background-color:#F4A460;"></td></tr>';
@@ -288,44 +288,44 @@ class DB {
 			if(isset($_REQUEST['Delete']))
 			{
 				$Data=new DB();
-				$Query="Delete from ".mysql_field_table($this->result,0)
-				." Where ".mysql_field_name($this->result,0)."=".intval($_REQUEST['Delete'])." LIMIT 1;";
+				$Query="Delete from ".mysql_field_table($this->RecSet,0)
+				." Where ".mysql_field_name($this->RecSet,0)."=".intval($_REQUEST['Delete'])." LIMIT 1;";
 				//echo $Query;
 				$Data->do_ins_query($Query);
-				$this->result = mysql_query($QueryString,$this->conn);
+				$this->RecSet = mysql_query($QueryString,$this->conn);
 				//echo 'Query failed: ' . mysql_error();
 			}
-			$FieldName=mysql_field_name($this->result,$col);
+			$FieldName=mysql_field_name($this->RecSet,$col);
 			if(isset($_POST[$FieldName]))
 			{
 				$Data=new DB();
-				while ($col<mysql_num_fields($this->result))
+				while ($col<mysql_num_fields($this->RecSet))
 				{
 					$row=0;
-					//echo $r."--".mysql_field_name($this->result,$col)."--".mysql_field_table($this->result,$col)
-					//	.$_POST[mysql_field_name($this->result,$col)][$row];
-					$ColName=mysql_field_name($this->result,$col);
-					while($row<count($_POST[mysql_field_name($this->result,$col)]))
+					//echo $r."--".mysql_field_name($this->RecSet,$col)."--".mysql_field_table($this->RecSet,$col)
+					//	.$_POST[mysql_field_name($this->RecSet,$col)][$row];
+					$ColName=mysql_field_name($this->RecSet,$col);
+					while($row<count($_POST[mysql_field_name($this->RecSet,$col)]))
 					{
 						//$Loop=0;
-						if (empty($_POST[mysql_field_name($this->result,$col)][$row]))
+						if (empty($_POST[mysql_field_name($this->RecSet,$col)][$row]))
 						{
 							$POSTVal="NULL";
 
 						}
 						elseif(substr($ColName,0,4)=="Date")
 						{
-							$POSTVal="STR_TO_DATE('".$_POST[mysql_field_name($this->result,$col)][$row]."','%e/%c/%y')";
+							$POSTVal="STR_TO_DATE('".$_POST[mysql_field_name($this->RecSet,$col)][$row]."','%e/%c/%y')";
 
 						}
 						else
-							$POSTVal="'".mysql_real_escape_string($_POST[mysql_field_name($this->result,$col)][$row])."' ";
+							$POSTVal="'".mysql_real_escape_string($_POST[mysql_field_name($this->RecSet,$col)][$row])."' ";
 							
 						//echo "Field: ".$Loop."-".$ColName.":".$POSTVal."<br/>";
 
-						$Query="Update ".mysql_field_table($this->result,$col)
+						$Query="Update ".mysql_field_table($this->RecSet,$col)
 						." Set `".$ColName."`=".$POSTVal." "
-						." Where ".mysql_field_name($this->result,0)."=".mysql_real_escape_string($_POST[mysql_field_name($this->result,0)][$row])." LIMIT 1;";
+						." Where ".mysql_field_name($this->RecSet,0)."=".mysql_real_escape_string($_POST[mysql_field_name($this->RecSet,0)][$row])." LIMIT 1;";
 						//echo $Query."<br />";
 						$Data->do_ins_query($Query);
 						$row++;
@@ -341,7 +341,7 @@ class DB {
 			$odd="";
 			$RecCount=0;
 			echo '<tr><td colspan="2" style="background-color:#F4A460;height:3px;"></td></tr>';
-			while ($line = mysql_fetch_array($this->result, MYSQL_ASSOC))
+			while ($line = mysql_fetch_array($this->RecSet, MYSQL_ASSOC))
 			{
 				$RecCount++;
 				$odd=$odd==""?"odd":"";
@@ -349,7 +349,7 @@ class DB {
 				$i=0;
 				foreach ($line as $col_value)
 				{
-					$ColName=mysql_field_name($this->result,$i);
+					$ColName=mysql_field_name($this->RecSet,$i);
 					$ColVal=htmlspecialchars($col_value);
 					//echo "Value: ".$ColVal."<br/>";
 					$DateFormat="";
@@ -373,8 +373,8 @@ class DB {
 					}
 					else
 						$allow='';
-					echo $DateFormat.'<input '.$allow.' type="text" maxlength="'.(mysql_field_len($this->result,$i)).'" size="'.((mysql_field_len($this->result,$i)>40)?40:mysql_field_len($this->result,$i))
-					.'" name="'.mysql_field_name($this->result,$i).'[]" value="'.$ColVal.'" /> '.$DateValue.' </td></tr>';
+					echo $DateFormat.'<input '.$allow.' type="text" maxlength="'.(mysql_field_len($this->RecSet,$i)).'" size="'.((mysql_field_len($this->RecSet,$i)>40)?40:mysql_field_len($this->RecSet,$i))
+					.'" name="'.mysql_field_name($this->RecSet,$i).'[]" value="'.$ColVal.'" /> '.$DateValue.' </td></tr>';
 					$i++;
 				}
 				echo '<tr><td colspan="2" style="background-color:#F4A460;height:3px;"></td></tr>';
@@ -385,8 +385,8 @@ class DB {
 	}
 	function EditTable($QueryString)
 	{
-		$this->result = mysql_query($QueryString,$this->conn);
-		echo "Total Records: ".mysql_num_rows($this->result)."\n<br />";
+		$this->RecSet = mysql_query($QueryString,$this->conn);
+		echo "Total Records: ".mysql_num_rows($this->RecSet)."\n<br />";
 		// Printing results in HTML
 		echo '<form name="frmData" method="post" action="'.htmlspecialchars($_SERVER['PHP_SELF'])
 		.'"><table rules="all" frame="box" width="100%" cellpadding="5" cellspacing="1">';
@@ -396,26 +396,26 @@ class DB {
 		{
 			$Data=new DB();
 
-			$Query="Delete from ".mysql_field_table($this->result,0)
-			." Where ".mysql_field_name($this->result,0)."=".intval($_REQUEST['Delete'])." LIMIT 1;";
+			$Query="Delete from ".mysql_field_table($this->RecSet,0)
+			." Where ".mysql_field_name($this->RecSet,0)."=".intval($_REQUEST['Delete'])." LIMIT 1;";
 			//echo $Query;
 			$Data->do_ins_query($Query);
-			$this->result = mysql_query($QueryString,$this->conn);
+			$this->RecSet = mysql_query($QueryString,$this->conn);
 			//echo 'Query failed: ' . mysql_error();
 		}
-		if(isset($_POST[mysql_field_name($this->result,$col)]))
+		if(isset($_POST[mysql_field_name($this->RecSet,$col)]))
 		{
 			$Data=new DB();
-			while ($col<mysql_num_fields($this->result))
+			while ($col<mysql_num_fields($this->RecSet))
 			{
 				$row=0;
-				//echo $r."--".mysql_field_name($this->result,$col)."--".mysql_field_table($this->result,$col)
-				//	.$_POST[mysql_field_name($this->result,$col)][$row];
-				while($row<count($_POST[mysql_field_name($this->result,$col)]))
+				//echo $r."--".mysql_field_name($this->RecSet,$col)."--".mysql_field_table($this->RecSet,$col)
+				//	.$_POST[mysql_field_name($this->RecSet,$col)][$row];
+				while($row<count($_POST[mysql_field_name($this->RecSet,$col)]))
 				{
-					$Query="Update ".mysql_field_table($this->result,$col)
-					." Set ".mysql_field_name($this->result,$col)."='".mysql_real_escape_string($_POST[mysql_field_name($this->result,$col)][$row])."'"
-					." Where ".mysql_field_name($this->result,0)."=".mysql_real_escape_string($_POST[mysql_field_name($this->result,0)][$row])." LIMIT 1;";
+					$Query="Update ".mysql_field_table($this->RecSet,$col)
+					." Set ".mysql_field_name($this->RecSet,$col)."='".mysql_real_escape_string($_POST[mysql_field_name($this->RecSet,$col)][$row])."'"
+					." Where ".mysql_field_name($this->RecSet,0)."=".mysql_real_escape_string($_POST[mysql_field_name($this->RecSet,0)][$row])." LIMIT 1;";
 					//echo $Query."<br />";
 					$Data->do_ins_query($Query);
 					$row++;
@@ -428,9 +428,9 @@ class DB {
 		//Print Collumn Names
 		$i=0;
 		echo '<tr><td colspan="4" style="background-color:#F4A460;"></td></tr><tr>';
-		while ($i<mysql_num_fields($this->result))
+		while ($i<mysql_num_fields($this->RecSet))
 		{
-			echo '<th>('.($i+1).') '.mysql_field_name($this->result,$i).'</th>';
+			echo '<th>('.($i+1).') '.mysql_field_name($this->RecSet,$i).'</th>';
 			$i++;
 			if (($i%4)==0 && $i>1)
 				echo '</tr><tr>';
@@ -439,7 +439,7 @@ class DB {
 		//Print Rows
 		$odd="";
 		$RecCount=0;
-		while ($line = mysql_fetch_array($this->result, MYSQL_ASSOC))
+		while ($line = mysql_fetch_array($this->RecSet, MYSQL_ASSOC))
 		{
 			$RecCount++;
 			$odd=$odd==""?"odd":"";
@@ -459,8 +459,8 @@ class DB {
 				}
 				else
 					$allow='';
-				echo '('.($i+1).') <input '.$allow.' type="text" size="'.((mysql_field_len($this->result,$i)>40)?40:mysql_field_len($this->result,$i))
-				.'" name="'.mysql_field_name($this->result,$i).'[]" value="'.htmlspecialchars($col_value).'" /> </td>';
+				echo '('.($i+1).') <input '.$allow.' type="text" size="'.((mysql_field_len($this->RecSet,$i)>40)?40:mysql_field_len($this->RecSet,$i))
+				.'" name="'.mysql_field_name($this->RecSet,$i).'[]" value="'.htmlspecialchars($col_value).'" /> </td>';
 				$i++;
 			}
 			echo '</tr><tr><td colspan="4" style="background-color:#F4A460;"></td></tr>';
