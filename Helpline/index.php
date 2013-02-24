@@ -34,30 +34,33 @@ initpage();
 		}	
 		else
 		{
+			$Data=new DB();
+			$UnReplied=$Data->do_max_query("Select count(*) from ".MySQL_Pre."Helpline where Replied=0");
 			?>
-			<span class="Notice"><b>Please Note: </b>All Applicants are requested not to submit the online application more than once. We are getting a lot of queries so it will take some time to resolve the issues. Please bear with us.</span>
+			<span class="Notice"><b>Please Note: </b>All Applicants are requested not to submit the online application more than once.
+			 If you have any problem after submitting the form please let us know by using Helpline. 
+			 Don't forget to mention your <b>Applicant ID</b> in all communications.</span>
 		<form method="post">
 		<div class="FieldGroup">
 			<h3>Have some doubt!</h3>
-			<b>Feel free to:</b><input name="SendQry" type="submit" value="Send Us Your Query" />
+			<b>Feel free to:</b><input name="SendQry" type="submit" value="Send Us Your Query" /><br/>
+			<span class="Message"><b>Number of queries to be replied:</b> <?php echo $UnReplied;?></span>
 			</div>
 		</form>
 		<div style="clear:both;"></div>
 		<br/>
 			<h2>Frequently Asked Questions:</h2>
 			<?php
-			$Data=new DB();
-			$Data->do_sel_query("Select * from ".MySQL_Pre."Helpline where Replied=1");
+			
+			$Data->do_sel_query("Select * from ".MySQL_Pre."Helpline where Replied=1 order by HelpID desc");
 			while($row = $Data->get_row())
 			{
 			?>
-				<hr />
 				<div class="Notice">
 				<b><?php echo htmlspecialchars($row['AppName']);?>:</b><br/>
 				<?php echo str_replace("\r\n","<br />",$row['TxtQry']); ?><br/>
 					<small><i><?php echo "From IP: {$row['IP']} On: ".date("l d F Y g:i:s A ",strtotime($row['QryTime']));?></i></small>
-				</div>
-				<div class="Notice">
+				<br/><br/>
 					<b>Reply:</b><p><i>&ldquo;<?php echo str_replace("\r\n","<br />",$row['ReplyTxt']);?>&rdquo;</i></p>
 				</div>
 			<?php 

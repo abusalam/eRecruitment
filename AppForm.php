@@ -59,11 +59,7 @@ $(function() {
 			case "Init":
 				?>
 				<h2>eRecruitment Application</h2>
-				<p>
-					<b>Please Note: </b><a href="http://paschimmedinipur.org">http://paschimmedinipur.org</a>
-					is secondary website and can be visited for information whenever this
-					website is not available due to technical reasons.
-				</p>
+				<span class="Notice"><b>Important: </b>Do not submit the application more than once. In case of any problem use the Helpline.</span>
 				<ol>
 				<li>The appointment will initially be made on a purely temporary basis but is likely to be made permanent for all categories of posts.</li>
 				<li>In case of  candidates serving under Government. Applicant must have obtained <b>&ldquo;No Objection Certificate(NOC)&rdquo;</b> from Appointing Authority in writing.</li>
