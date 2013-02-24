@@ -28,7 +28,7 @@ initpage();
 		<h2>Helpline</h2>
 		<?php 
 		include("../../captcha/securimage.php");
-		if(($_POST['SendQry']=="Send Us Your Query") |($_SESSION['SendQry']=="1")){
+		if((GetVal($_POST,'SendQry')=="Send Us Your Query") || (GetVal($_SESSION,'SendQry')=="1")){
 			$_SESSION['SendQry']="1";
 			require_once("contact.php");		
 		}	

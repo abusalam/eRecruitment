@@ -1,7 +1,7 @@
 <?php
 //ini_set('display_errors','On');
 require_once( 'library.php');
-if(isset($_POST['CmdPrint']) && ($_POST['CmdPrint']=="Print Challan"))
+if(GetVal($_POST,'CmdPrint')=="Print Challan")
 {
 	session_start();
 	$_SESSION['Step']="Init";
@@ -67,6 +67,7 @@ $(function() {
 				<b>&ldquo;Applicant ID&rdquo;</b> is mentioned in the transaction remarks.
 				</span>
 				<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+				<?php if(GetVal($_SESSION, 'Step')!="Print"){?>
 				<div class="FieldGroup">
 					<h3>Applicant ID:</h3>
 					<input type="text" name="AppID" maxlength="4" />
@@ -74,8 +75,10 @@ $(function() {
 				<div class="FieldGroup">
 						<h3>Mobile No:</h3>
 						<input type="text" name="AppMobile" maxlength="10" />
-						<input type="submit" value="<?php echo ($_SESSION['Step']!="Print")?"Search":"Print Challan";?>" name="CmdPrint" />
+						
 				</div>
+				<?php }?>
+				<input type="submit" value="<?php echo ($_SESSION['Step']!="Print")?"Search":"Print Challan";?>" name="CmdPrint" />
 				<div style="clear:both;"></div>
 				</form>
 				<?php

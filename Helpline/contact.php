@@ -2,8 +2,8 @@
 <?php
 $Data=new DB();
 $img = new Securimage();
-$valid = $img->check($_POST['code']);
-if((!isset($_POST['v_name'])) || !$valid || (strlen($_POST['feed_txt'])>1024) || (strlen($_POST['v_name'])>50) || (strlen($_POST['v_email'])>50))
+$valid = $img->check(GetVal($_POST,'code'));
+if(!$valid || (strlen(GetVal($_POST,'feed_txt'))>1024) || (strlen(GetVal($_POST,'v_name'))>50) || (strlen(GetVal($_POST,'v_email'))>50))
 {
 	?>
 <form
@@ -11,15 +11,15 @@ if((!isset($_POST['v_name'])) || !$valid || (strlen($_POST['feed_txt'])>1024) ||
 	action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>"
 	style="text-align: left;">
 	<b>Your Name: </b><br /> <input size="50" maxlength="50" type="text"
-		name="v_name" value="<?php echo htmlspecialchars($_POST['v_name']);?>" />
+		name="v_name" value="<?php echo htmlspecialchars(GetVal($_POST,'v_name'));?>" />
 	<br /> <b>Your E-Mail: </b><br /> <input size="50" maxlength="50"
 		type="text" name="v_email"
-		value="<?php echo htmlspecialchars($_POST['v_email']);?>" /> <br /> <b>Problem
+		value="<?php echo htmlspecialchars(GetVal($_POST,'v_email'));?>" /> <br /> <b>Problem
 		&amp; Suggestions : </b><span id="info">(Max: 1024 chars)</span><br />
 	<?php 
 	echo '<textarea rows="4" cols="60" style="height: 200px; margin: 0px;"'
 		.'name="feed_txt" onkeyup="limitChars(this, 1024, \'info\')">'
-		.trim(htmlspecialchars($_POST['feed_txt'])).'</textarea>';
+		.trim(htmlspecialchars(GetVal($_POST,'feed_txt'))).'</textarea>';
 	?>
 	<br /> Secure Image:<br />
 	<!-- pass a session id to the query string of the script to prevent ie caching -->

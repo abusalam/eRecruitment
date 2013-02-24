@@ -1,7 +1,7 @@
 <?php
 //ini_set('display_errors','On');
 require_once( 'library.php');
-if(isset($_POST['CmdPrint']) && ($_POST['CmdPrint']=="Print Challan"))
+if(GetVal($_POST,'CmdPrint')=="Print Challan")
 {
 	session_start();
 	include_once 'ShowPDF.php';

@@ -48,7 +48,7 @@ function InpSanitize($PostData){
 	return $PostData;
 }
 function ShowMsg(){
-	if($_SESSION['Msg']!=""){
+	if(GetVal($_SESSION,"Msg")!=""){
 		echo '<span class="Message">'.$_SESSION['Msg'].'</span><br/>';
 		$_SESSION['Msg']="";
 	}

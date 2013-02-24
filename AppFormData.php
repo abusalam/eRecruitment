@@ -2,13 +2,13 @@
 if(!isset($_SESSION['Step'])){
 	$_SESSION['Step']="Init";
 }
-elseif (isset($_POST['InsTerm']) && ($_POST['InsTerm']=="1") && ($_SESSION['Step']=="Init"))
+elseif ((GetVal($_POST,'InsTerm')=="1") && ($_SESSION['Step']=="Init"))
 	$_SESSION['Step']="AppForm";
-elseif (isset($_POST['ChkDeclr']) && ($_POST['ChkDeclr']=="1") && ($_SESSION['Step']=="AppForm")){
+elseif ((GetVal($_POST,'ChkDeclr')=="1") && ($_SESSION['Step']=="AppForm")){
 	$_SESSION['Step']="VerifyData";
 	$_SESSION['PostData']=InpSanitize($_POST);
 }
-elseif (isset($_POST['CmdVerify']) && ($_POST['CmdVerify']=="Verified All Data Please Proceed") && ($_SESSION['Step']=="VerifyData")){
+elseif ((GetVal($_POST,'CmdVerify')=="Verified All Data Please Proceed") && ($_SESSION['Step']=="VerifyData")){
 	$Data=new DB();
 	$Qry="Insert Into ".MySQL_Pre."Applications(`ResID`, `AppName`, `AppEmail`, `AppMobile`, `GuardianName`, `DOB`, `Sex`, `Nationality`,"
 			." `Religion`, `PreAddr`, `PrePinCode`, `PermAddr1`, `PermPinCode`, `BelongsFrom`, `PhyHand`, `Qualification`, `ComKnowledge`,"
@@ -36,7 +36,7 @@ elseif (isset($_POST['CmdVerify']) && ($_POST['CmdVerify']=="Verified All Data P
 	}
 	
 }
-if($_POST['CmdPrint']=="Search"){
+if(GetVal($_POST,'CmdPrint')=="Search"){
 	$Data=new DB();
 	$_SESSION['AppID']=$Data->SqlSafe(htmlspecialchars($_POST['AppID']));
 	$Query="Select AppName,AppMobile,Fees,DOB,FiledOn from ".MySQL_Pre."Applications A,".MySQL_Pre."Reserved R,".MySQL_Pre."AppIDs P "
