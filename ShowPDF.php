@@ -1,13 +1,13 @@
 <?php
 include_once 'MyPDF.php';
-if (strlen($_SESSION['AppID'])>0)
+if (strlen(GetVal($_SESSION,'AppID'))>0)
 {
 	$pdf=new PDF();
-	ShowPDF(&$pdf,0);
-	ShowPDF(&$pdf,1);
-	ShowPDF(&$pdf,2);
+	ShowPDF($pdf,0);
+	ShowPDF($pdf,1);
+	ShowPDF($pdf,2);
 }
-function ShowPDF($pdf,$Pos=0)
+function ShowPDF(&$pdf,$Pos=0)
 {
 	$Data=new DB();
 	$Query="Select AppMobile,Fees,FiledOn from ".MySQL_Pre."Applications A,".MySQL_Pre."Reserved R,".MySQL_Pre."AppIDs P "

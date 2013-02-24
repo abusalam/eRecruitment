@@ -38,7 +38,7 @@ elseif ((GetVal($_POST,'CmdVerify')=="Verified All Data Please Proceed") && ($_S
 }
 if(GetVal($_POST,'CmdPrint')=="Search"){
 	$Data=new DB();
-	$_SESSION['AppID']=$Data->SqlSafe(htmlspecialchars($_POST['AppID']));
+	$_SESSION['AppID']=strtoupper($Data->SqlSafe(htmlspecialchars($_POST['AppID'])));
 	$Query="Select AppName,AppMobile,Fees,DOB,FiledOn from ".MySQL_Pre."Applications A,".MySQL_Pre."Reserved R,".MySQL_Pre."AppIDs P "
 			."Where A.ResID=R.ResID AND P.AppSlNo=A.AppID AND P.AppID='{$_SESSION['AppID']}' AND AppMobile='".$Data->SqlSafe(htmlspecialchars($_POST['AppMobile']))."'";
 	$Found=$Data->do_sel_query($Query);
