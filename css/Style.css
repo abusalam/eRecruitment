@@ -1,14 +1,9 @@
-*{
-cursor:auto;
+* {
+	cursor: auto;
 }
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, font, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend {
+
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend
+	{
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -29,59 +24,69 @@ body {
 	line-height: 1;
 	font-size: 8px;
 }
-.Notice{
+
+.Notice {
 	border: 1px dotted #003300;
 	background-color: #EAEAEA;
-	padding:10px;
+	padding: 10px;
 	margin: 0px 0px 5px 0px;
-	display:inline-block;
+	display: inline-block;
 }
-.Message{
-	font-size:large;
-	color:#99CC33;
+
+.Message {
+	font-size: large;
+	color: #99CC33;
 	border: 2px solid #7FAD29;
 	background-color: #666;
-	padding:5px;
+	padding: 5px;
 	margin: 0px 0px 5px 0px;
-	display:inline-block;
+	display: inline-block;
 }
-.FieldGroup{
-	float:left;
+
+.FieldGroup {
+	float: left;
 	margin-left: 10px;
 	padding-left: 10px;
 }
-.CheckYes,.CheckNo{
-	font-weight:bold;
-	font-size:medium;
-	margin:10px 0px 10px 10px;
+
+.CheckYes,.CheckNo {
+	font-weight: bold;
+	font-size: medium;
+	margin: 10px 0px 10px 10px;
 	background-attachment: scroll;
 	background-repeat: no-repeat;
 	background-position: left;
-	padding:10px 0px 10px 52px;
+	padding: 10px 0px 10px 52px;
 }
-.CheckYes{
+
+.CheckYes {
 	background-image: url(../Images/check.png);
 }
-.CheckNo{
+
+.CheckNo {
 	background-image: url(../Images/cross.png);
 }
-.RadioGroup{
-	font-weight:bold;
-	font-size:medium;
-	margin:4px 0px 10px 10px;
+
+.RadioGroup {
+	font-weight: bold;
+	font-size: medium;
+	margin: 4px 0px 10px 10px;
 }
-.FieldLabel{
-	font-weight:bold;
-	font-size:medium;
-	margin:4px 0px 0px 10px;
+
+.FieldLabel {
+	font-weight: bold;
+	font-size: medium;
+	margin: 4px 0px 0px 10px;
 }
-.ShowField{
-	border:1px Solid;
-	margin:4px 0px 10px 10px;
-	padding:0px 4px 4px 4px;
+
+.ShowField {
+	border: 1px Solid;
+	margin: 4px 0px 10px 10px;
+	padding: 0px 4px 4px 4px;
 	background-color: #FFF;
-	display:inline-block;
+	display: inline-block;
 }
+
 .content li {
 	padding-top: 6px;
 	padding-right: 0px;
@@ -92,6 +97,7 @@ body {
 	list-style-type: disc;
 	margin-left: 25px;
 }
+
 .content ul ul {
 	border-left-width: medium;
 	border-left-style: solid;
@@ -101,15 +107,16 @@ body {
 	border-left-color: #000000;
 	margin-left: 40px;
 }
+
 .content ul ul li {
 	margin-left: 10px;
 }
 
-blockquote, q {
+blockquote,q {
 	quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
+
+blockquote:before,blockquote:after,q:before,q:after {
 	content: '';
 	content: none;
 }
@@ -123,6 +130,7 @@ q:before, q:after {
 ins {
 	text-decoration: none;
 }
+
 del {
 	text-decoration: line-through;
 }
@@ -145,6 +153,7 @@ body {
 	font-family: Calibri, Georgia, "Book Antiqua", Verdana;
 	font-size: medium;
 }
+
 .Header {
 	background-attachment: scroll;
 	background-image: url(../Images/Heading.jpg);
@@ -157,6 +166,7 @@ body {
 	margin: 0px;
 	padding: 0px;
 }
+
 .LeftPanelSide {
 	background-image: url(../Images/LPanel.jpg);
 	background-repeat: no-repeat;
@@ -167,6 +177,7 @@ body {
 	margin: 0px;
 	padding: 0px;
 }
+
 .RightPanelSide {
 	background-image: url(../Images/RPanel.jpg);
 	background-repeat: no-repeat;
@@ -177,6 +188,7 @@ body {
 	margin: 0px;
 	padding: 0px;
 }
+
 .TopPanel {
 	padding: 0px;
 	display: block;
@@ -195,6 +207,7 @@ body {
 	text-transform: none;
 	line-height: normal;
 }
+
 .MenuBar {
 	background-image: url(../Images/MenuBar.jpg);
 	background-repeat: repeat-x;
@@ -215,35 +228,32 @@ body {
 	color: #666666;
 	display: block;
 	overflow: auto;
-	padding: 0px;
+	padding: 0px 0px 0px 100px;
 	clear: both;
 	margin: 0px;
 }
-.Menuitems {
+
+.Menuitems,.SelMenuitems {
 	list-style-image: none;
 	list-style-type: none;
 	float: left;
-	margin: 0px;
-	padding-top: 0px;
-	padding-right: 4px;
-	padding-bottom: 0px;
-	padding-left: 4px;
+	margin: 0px 5px 0px 5px;
+	padding: 0px 0px 0px 10px;
 	display: block;
-	cursor:pointer;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-image: url(../Images/MenuSep.jpg);
 }
+
 .SelMenuitems {
-	list-style-image: none;
-	list-style-type: none;
-	margin: 0px;
-	float: left;
 	color: #FFFFFF;
-	padding-top: 0px;
-	padding-right: 4px;
-	padding-bottom: 0px;
-	padding-left: 4px;
-	display: block;
-	cursor:pointer;
 }
+
+.Menuitems:FIRST-CHILD,.SelMenuitems:FIRST-CHILD {
+	background-image: none;
+}
+
 h1 {
 	text-decoration: none;
 	height: auto;
@@ -275,8 +285,9 @@ h1 {
 	padding-right: 5px;
 	padding-bottom: 10px;
 	padding-left: 5px;
-	cursor:pointer;
+	cursor: pointer;
 }
+
 .SelLeftMenuitems {
 	float: none;
 	height: auto;
@@ -290,8 +301,9 @@ h1 {
 	padding-right: 5px;
 	padding-bottom: 10px;
 	padding-left: 5px;
-	cursor:pointer;
+	cursor: pointer;
 }
+
 p {
 	padding: 0px;
 	margin-top: 5px;
@@ -310,42 +322,49 @@ p {
 	text-decoration: none;
 	display: block;
 }
+
 .SelLeftMenuitems a {
 	color: #ffffff;
 	text-decoration: none;
-	cursor:pointer;
+	cursor: pointer;
 }
+
 .LeftMenuitems a {
 	color: #999999;
 	text-decoration: none;
-	cursor:pointer;
+	cursor: pointer;
 }
+
 .SelLeftMenuitems a:hover {
 	color: #FFFFFF;
 	text-decoration: none;
-	cursor:pointer;
+	cursor: pointer;
 }
+
 .LeftMenuitems a:hover {
 	color: #CC9900;
 	text-decoration: none;
-	cursor:pointer;
+	cursor: pointer;
 }
 
 .SelMenuitems a {
 	color: #ffffff;
 	text-decoration: none;
-	cursor:pointer;
+	cursor: pointer;
 }
+
 .Menuitems a {
 	color: #666666;
 	text-decoration: none;
-	cursor:pointer;
+	cursor: pointer;
 }
+
 .SelMenuitems a:hover {
 	color: #669900;
 	text-decoration: none;
-	cursor:pointer;
+	cursor: pointer;
 }
+
 strong {
 	font-weight: bold;
 }
@@ -353,8 +372,9 @@ strong {
 .Menuitems a:hover {
 	color: #669900;
 	text-decoration: none;
-	cursor:pointer;
+	cursor: pointer;
 }
+
 .LeftMenu {
 	background-color: #757575;
 	width: auto;
@@ -377,10 +397,11 @@ strong {
 	clear: none;
 	height: auto;
 }
+
 .RightMenu {
 	background-color: #757575;
 	width: auto;
-	float:right;
+	float: right;
 	display: block;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: small;
@@ -402,8 +423,9 @@ strong {
 
 a:hover {
 	color: #000000;
-	cursor:pointer;
+	cursor: pointer;
 }
+
 .footer {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: x-small;
@@ -427,6 +449,7 @@ a:hover {
 	padding-left: 20%;
 	padding-right: 20%;
 }
+
 .pageinfo {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: small;
@@ -479,8 +502,9 @@ a:hover {
 	list-style-type: disc;
 	vertical-align: middle;
 }
+
 h2 {
-	color:#3366CC;
+	color: #3366CC;
 	font-family: Calibri, Georgia, "Book Antiqua", Verdana;
 	font-size: x-large;
 	font-style: normal;
@@ -495,6 +519,7 @@ h2 {
 	padding-bottom: 10px;
 	padding-left: 0px;
 }
+
 h3 {
 	font-family: Calibri, Georgia, "Book Antiqua", Verdana;
 	font-size: large;
@@ -515,6 +540,7 @@ h3 {
 	display: block;
 	margin: 0px;
 }
+
 .BottomMenu {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: small;
@@ -547,7 +573,7 @@ h3 {
 .BottomMenu .Menuitems a:hover {
 	color: #CC9933;
 	text-decoration: underline;
-	cursor:pointer;
+	cursor: pointer;
 }
 
 .BottomMenu .Menuitems {
@@ -556,8 +582,9 @@ h3 {
 	padding-right: 5px;
 	padding-bottom: 0px;
 	padding-left: 5px;
-	cursor:pointer;
+	cursor: pointer;
 }
+
 .SearchBox {
 	padding: 0px;
 	clear: none;
@@ -571,6 +598,7 @@ h3 {
 	margin-left: 0px;
 	background-repeat: repeat-x;
 }
+
 .LSearch {
 	background-image: url(../Images/LSearch.jpg);
 	background-repeat: no-repeat;
@@ -587,6 +615,7 @@ h3 {
 	font-weight: bold;
 	color: #99CC33;
 }
+
 .RSearch {
 	background-image: url(../Images/RSearch.jpg);
 	background-repeat: no-repeat;
@@ -605,6 +634,7 @@ h3 {
 	background-attachment: scroll;
 	background-position: right center;
 }
+
 .SearchQuery {
 	padding: 0px;
 	float: left;
@@ -629,18 +659,22 @@ h3 {
 	height: 20px;
 	color: #FFFFFF;
 }
+
 .content ol {
 	list-style-position: inside;
 	list-style-type: decimal;
 }
+
 .content ol li {
 	list-style-position: inside;
 	list-style-image: none;
 	list-style-type: decimal;
 }
+
 .content table {
 	border: 1px solid #666666;
 }
+
 h4 {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;

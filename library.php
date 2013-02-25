@@ -118,4 +118,10 @@ function RandStr($length) {
 	}
 	return $str;
 }
+function GetAbsoluteURLFolder()
+{
+	$scriptFolder = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://';
+	$scriptFolder .= $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']);
+	return $scriptFolder;
+}
 ?>
