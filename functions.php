@@ -53,4 +53,36 @@ function ShowMsg(){
 		$_SESSION['Msg']="";
 	}
 }
+function SendCURL($URL,$Method="GET",$PostData){
+	// create a new cURL resource
+	$URL=$URL;
+	$ch = curl_init();
+	if ($Method=="POST")
+	{
+		curl_setopt($ch, CURLOPT_URL, $URL);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $PostData);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+	}
+	else{
+		// set URL and other appropriate options
+		curl_setopt($ch, CURLOPT_URL, $URL);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+	}
+	//return the transfer as a string
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	// $output contains the output string
+	$_SESSION['AuthResp']= json_decode(curl_exec($ch));
+	// close cURL resource, and free up system resources
+	curl_close($ch);
+}
+function HelplineReply($AppName,$TxtQry,$ReplyTxt){
+	$Body= '<h2>'.AppTitle.'</h2><div>'.
+				'<b>Your Query:</b><br/>'.
+				str_replace("\r\n","<br />",$TxtQry).'<br/><br/>'.
+				'<b>Reply:</b>'.
+				'<p><i>'.str_replace("\r\n","<br />",$ReplyTxt).'</i></p>'.
+			'</div>';
+	return $Body;
+}
 ?>

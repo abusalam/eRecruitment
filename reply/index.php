@@ -49,8 +49,15 @@ initpage();
 			</form>
 			<?php
 				if(isset($_POST['ReplyTo']) && ($_POST['ReplyTo']!="") && ($_POST['ReplyTxt']!="")){
-					$Query="Update ".MySQL_Pre."Helpline set Replied=".intval($_POST['ShowFAQ']).", ReplyTxt='".$Data->SqlSafe($_POST['ReplyTxt'])."',ReplyTime=CURRENT_TIMESTAMP Where HelpID={$_POST['ReplyTo']}";
+					$Query="Update ".MySQL_Pre."Helpline set Replied=".intval($_POST['ShowFAQ']).", ReplyTxt='"
+							.$Data->SqlSafe($_POST['ReplyTxt'])."',ReplyTime=CURRENT_TIMESTAMP Where HelpID=".$Data->SqlSafe($_POST['ReplyTo']);
 					$Data->do_ins_query($Query);
+					$Data->do_sel_query("Select AppName,AppEmail,TxtQry,ReplyTxt from ".MySQL_Pre."Helpline Where HelpID=".$Data->SqlSafe($_POST['ReplyTo']));
+					$PostData=$Data->get_row();
+					$PostData['Subject']="Helpline Reply";
+					$PostData['Body']=HelplineReply($PostData['AppName'], $PostData['TxtQry'], $PostData['ReplyTxt']);
+					$Resp= "<h3>".SendCURL("http://recruitment.paschimmedinipur.org/MyPHPMailer.php","POST",$PostData)."</h3>";
+					echo $Resp;
 				}
 				$Data->do_sel_query("Select * from ".MySQL_Pre."Helpline Where Replied!=1 Order by HelpID DESC");
 			}
