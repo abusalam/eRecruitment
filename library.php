@@ -24,30 +24,6 @@ function initpage()
 	}
 	return;
 }
-function SendCURL($URL,$Method="GET"){
-	session_start();
-	// create a new cURL resource
-	$URL=BaseURL.$URL;
-	$ch = curl_init();
-	if ($Method=="POST")
-	{
-		curl_setopt($ch, CURLOPT_URL, $URL);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $_POST);
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-	}
-	else{
-		// set URL and other appropriate options
-		curl_setopt($ch, CURLOPT_URL, $URL);
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-	}
-	//return the transfer as a string
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	// $output contains the output string
-	$_SESSION['AuthResp']= json_decode(curl_exec($ch));
-	// close cURL resource, and free up system resources
-	curl_close($ch);
-}
 
 function pageinfo()
 {
@@ -121,7 +97,7 @@ function RandStr($length) {
 function GetAbsoluteURLFolder()
 {
 	$scriptFolder = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://';
-	$scriptFolder .= $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']);
+	$scriptFolder .= $_SERVER['HTTP_HOST'].BaseDIR;
 	return $scriptFolder;
 }
 ?>

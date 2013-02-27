@@ -1,5 +1,5 @@
 <?php 
-//ini_set('display_errors','On');
+ini_set('display_errors','On');
 require_once( '../library.php');
 initpage();
 ?>
@@ -28,6 +28,9 @@ initpage();
 	<div class="content">
 		<h2>Helpline Reply Queries:</h2>
 			<?php
+			$NewCURL=new cURL();
+			$_SESSION['Msg']=$NewCURL->get("http://recruitment.paschimmedinipur.org/test.php");
+			ShowMsg();
 			$Data=new DB();
 			if($_REQUEST['AdminUpload']=='1')
 			{
@@ -54,10 +57,13 @@ initpage();
 					$Data->do_ins_query($Query);
 					$Data->do_sel_query("Select AppName,AppEmail,TxtQry,ReplyTxt from ".MySQL_Pre."Helpline Where HelpID=".$Data->SqlSafe($_POST['ReplyTo']));
 					$PostData=$Data->get_row();
-					$PostData['Subject']="Helpline Reply";
+					$PostData['Subject']="Helpline Reply from Paschim Medinipur Judgeship";
 					$PostData['Body']=HelplineReply($PostData['AppName'], $PostData['TxtQry'], $PostData['ReplyTxt']);
-					$Resp= "<h3>".SendCURL("http://recruitment.paschimmedinipur.org/MyPHPMailer.php","POST",$PostData)."</h3>";
-					echo $Resp;
+					
+					$_SESSION['Msg']=$NewCURL->get("http://recruitment.paschimmedinipur.org/MyPHPMailer.php?AppName=".$PostData['AppName']."&AppEmail=".$PostData['AppEmail']."&Subject=".$PostData['Subject']."&Body=".$PostData['Body']);
+					$_SESSION['Msg']=$_SESSION['Msg'].' Curl: '. function_exists('curl_version') ? 'Enabled' : 'Disabled';
+					
+					ShowMsg();
 				}
 				$Data->do_sel_query("Select * from ".MySQL_Pre."Helpline Where Replied!=1 Order by HelpID DESC");
 			}
