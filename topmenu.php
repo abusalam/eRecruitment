@@ -6,7 +6,7 @@
 		</li>
 		<li
 			class="<?php echo ($_SERVER['SCRIPT_NAME']==BaseDIR.'AppForm.php')?'SelMenuitems':'Menuitems';?>">
-			<a href="<?php echo GetAbsoluteURLFolder(); ?>AppForm.php">Application
+			<a href="<?php echo GetAbsoluteURLFolder(); ?>Application.php">Application
 				Form</a>
 		</li>
 		<li

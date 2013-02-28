@@ -3,7 +3,8 @@ require_once('database.php');
 require_once('functions.php');
 function initpage()
 {
-	session_start();
+	if(!isset($_SESSION))
+		session_start();
 	$sess_id=md5(microtime());
 
 	//$_SESSION['Debug']=$_SESSION['Debug']."InInitPage(".$_SESSION['Client_SID']."=".$_COOKIE['Client_SID'].")";
