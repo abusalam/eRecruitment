@@ -27,8 +27,7 @@ else
 <script type="text/javascript" src="js/jquery-ui-1.8.21.custom.min.js"></script>
 <script type="text/javascript">
 $(function() {
-	$( ".datepick" ).datepicker({minDate: "-43Y", 
-								maxDate: "-18Y",
+	$( ".datepick" ).datepicker({yearRange: '1969:1995',
 								dateFormat: 'yy-mm-dd',
 								showOtherMonths: true,
 								selectOtherMonths: true,
@@ -67,6 +66,7 @@ $(function() {
 				<li><b>In case of Process Server/Group-D category:</b> The candidate must have class VIII passed certificate from any recognized School or recognized Madrasah or any other recognized equivalent institution. </li>
 				<li><b>Eligibility Age:</b> Not less than 18 years and not more than 40 years as on 1st January, 2013 for all categories of posts. Relaxation of age limit for five years in case of candidates SC/ST category and for 3 years in case of candidates of OBC Category only. The upper age limit, in case of Physically Handicapped Candidate, is 43 years. Relaxation of age limit in case of Exserviceman Category as per existing government Rules.</li>
 				</ol>
+<?php include 'AppSteps.php';?>
 				<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
 				<div class="FieldLabel">
 					<label for="InsTerm">

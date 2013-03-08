@@ -30,7 +30,7 @@ initpage();
 <span class="Notice">
 <b>Please Note: </b>Current Status of your application will be shown here.
 </span>
-<h3>Admits can also be downloaded from here once your application is accepted.</h3>
+<h3>Admits can also be downloaded from here from 15-June-2013 to 30-June-2013 once your application is accepted.</h3>
 <?php 
 $Data=new DB();
 $Qry="Select A.AppID as SlNo, ID.AppID as `Applicant ID`, AppName, GuardianName, Sex, FiledOn From ".MySQL_Pre."Applications A,".MySQL_Pre."AppIDs ID Where A.AppID=ID.AppSlNo Order by A.AppID desc Limit 10";

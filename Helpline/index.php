@@ -40,15 +40,16 @@ initpage();
 			<span class="Notice"><b>Please Note: </b>All Applicants are requested not to submit the online application more than once.
 			 If you have any problem after submitting the form please let us know by using Helpline. 
 			 Don't forget to mention your <b>Applicant ID</b> in all communications.</span>
-		<form method="post">
-		<div class="FieldGroup">
-			<h3>Have some doubt!</h3>
-			<b>Feel free to:</b><input name="SendQry" type="submit" value="Send Us Your Query" /><br/>
-			<span class="Message"><b>Number of queries to be replied:</b> <?php echo $UnReplied;?></span>
-			</div>
-		</form>
-		<div style="clear:both;"></div>
-		<br/>
+<?php include '../AppSteps.php';?>
+			<form method="post">
+			<div class="FieldGroup">
+				<h3>Have some doubt!</h3>
+				<b>Read the Frequently Asked Questions Carefully and then:</b><input name="SendQry" type="submit" value="Send Us Your Query" /><br/>
+				<span class="Message"><b>Number of queries to be replied:</b> <?php echo $UnReplied;?></span>
+				</div>
+			</form>
+			<div style="clear:both;"></div>
+			<br/>
 			<h2>Frequently Asked Questions:</h2>
 			<?php
 			
