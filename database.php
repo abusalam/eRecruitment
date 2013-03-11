@@ -1,4 +1,5 @@
 <?php
+namespace eRecruitment\database;
 require_once('MySQLServer.php');
 class DB {
 	public $conn;

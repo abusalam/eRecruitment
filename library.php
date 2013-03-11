@@ -1,4 +1,5 @@
 <?php 
+namespace eRecruitment\library;
 require_once('database.php');
 require_once('functions.php');
 function initpage()
@@ -6,18 +7,19 @@ function initpage()
 	if(!isset($_SESSION))
 		session_start();
 	$sess_id=md5(microtime());
-
+	
 	//$_SESSION['Debug']=$_SESSION['Debug']."InInitPage(".$_SESSION['Client_SID']."=".$_COOKIE['Client_SID'].")";
-	setcookie("Client_SID",$sess_id,(time()+(LifeTime*60)));
+	setcookie("Client_SID",$sess_id,(time()+(LifeTime*60)),FALSE,TRUE);
 	$_SESSION['Client_SID']=$sess_id;
 	$_SESSION['LifeTime']=time();
+	header("Location: http://AppFlower/eRecruitment?Token={$sess_id}");
 	echo '<?xml version="1.0" encoding="UTF-8"?>';
 	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">';
 	echo '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" >';
 	$t=(isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:"");
 	$reg=new DB();
 	$reg->do_ins_query("INSERT INTO ".MySQL_Pre."Logs(IP,URL,UserAgent,Referrer,SessionID) values"
-			."('".$_SERVER['REMOTE_ADDR']."','".$_SERVER['PHP_SELF']."','".$_SERVER['HTTP_USER_AGENT']."','<".$t.">','".$_SESSION['Client_SID']."');");
+			."('".$_SERVER['REMOTE_ADDR']."','".$_SERVER['PHP_SELF']."','".$_SERVER['HTTP_USER_AGENT']."','<".$t.">','".session_id()."');");
 	if(isset($_REQUEST['show_src']))
 	{
 		if($_REQUEST['show_src']=="me")

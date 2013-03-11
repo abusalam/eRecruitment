@@ -1,4 +1,5 @@
 <?php
+namespace eRecruitment;
 define("HOST_Name", "localhost");
 define("MySQL_User", "root");
 define("MySQL_Pass", "root");

@@ -1,44 +1,28 @@
 ﻿<?php
-//ini_set('display_errors','On');
-require_once( 'library.php'); 
-initpage();
+if(!isset($_SESSION))
+	session_start();
+$sess_id=md5(microtime());
+if(($_SESSION['TokenSent']!==TRUE) || (! isset($_GET['Token'])))
+{
+	$scriptFolder = (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://';
+	$scriptFolder .= $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+	header("Location: {$scriptFolder}?Token={$sess_id}");
+	$_SESSION['Token']=$sess_id;
+	$_SESSION['TokenSent']=TRUE;
+}
+echo '<?xml version="1.0" encoding="UTF-8"?>';
+echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">';
+echo '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" >';
 ?>
-<head>
-<title>eRecruitment - Paschim Medinipur</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="robots" content="noarchive,noodp" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta name="description" content="Recruitment of staffs under Paschim Medinipur Judgeship"/>
-<style type="text/css" media="all">
-<!--
-@import url("css/Style.css");
--->
-</style>
-</head>
 <body>
-<div class="TopPanel">
- <div class="LeftPanelSide"></div>
- <div class="RightPanelSide"></div>
- <h1><?php echo AppTitle;?></h1>
-</div>
-<div class="Header">
-</div>
-<?php 
-	require_once("topmenu.php");
-?>
-<div class="content">
-<h2>eRecruitment Post Details</h2>
-<p><b>Please Note:</b> <a href="http://paschimmedinipur.org">http://paschimmedinipur.org</a> is secondary website and can be visited for information whenever this website is not available due to technical reasons.</p>
-<?php
-	//UniqueRandAlpha();
-	$Data=new DB();
-	$Qry="Select PostName,PostGroup,PayScale,Category,Fees,Vacancies From ".MySQL_Pre."Posts P,".MySQL_Pre."Categories C,".MySQL_Pre."Reserved R"
-			." Where P.PostID=R.PostID AND C.CatgID=R.CatgID";
-	$Data->ShowTable($Qry);
-	$Data->do_close();
-?>
-</div>
-<div class="pageinfo"><?php pageinfo(); ?></div>
-<div class="footer"><?php footerinfo();?></div>
+<h1>Worked!</h1>
+<form action="<?php echo $_SERVER['PHP_SELF']."?Token={$_SESSION['Token']}";?>" method="post">
+<input type="time" name="SetTime" />
+<input type="submit" />
+</form>
+<h2>Time:</h2>
+<p><?php echo $_POST['SetTime'];?></p>
+<h2>Token:</h2>
+<p><?php echo $_GET['Token'];?></p>
 </body>
 </html>
