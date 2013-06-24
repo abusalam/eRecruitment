@@ -42,8 +42,8 @@ function GMailSMTP($AppEMail,$AppName,$Subject,$Body){
 	$Resp['IP']="Requested From:".$_SERVER['REMOTE_ADDR'];
 	return json_encode($Resp);
 }
-if($_SERVER["REMOTE_ADDR"]==AllowedIP)
-{
-	GMailSMTP(GetVal($_POST,'AppEmail'), GetVal($_POST,'AppName'), GetVal($_POST,'Subject'), GetVal($_POST,'Body'));
-}
+//if($_SERVER["REMOTE_ADDR"]==AllowedIP)
+//{
+	echo GMailSMTP(GetVal($_POST,'AppEmail'), GetVal($_POST,'AppName'), GetVal($_POST,'Subject'), GetVal($_POST,'Body'));
+//}
 ?>

@@ -28,8 +28,8 @@ initpage();
 	<div class="content">
 		<h2>Helpline Reply Queries:</h2>
 			<?php
-			$NewCURL=new cURL();
-			$_SESSION['Msg']=$NewCURL->get("http://recruitment.paschimmedinipur.org/test.php");
+			//$NewCURL=new cURL();
+			//$_SESSION['Msg']=$NewCURL->get("http://recruitment.paschimmedinipur.org/test.php");
 			ShowMsg();
 			$Data=new DB();
 			if($_REQUEST['AdminUpload']=='1')
@@ -39,7 +39,7 @@ initpage();
 				action="<?php $_SERVER['PHP_SELF']?>">
 				<label for="ReplyTo">To:</label> <select name="ReplyTo">
 					<?php 
-					$Query="SELECT HelpID,CONCAT('[',Replied,'] ',AppName) as `AppName` FROM ".MySQL_Pre."Helpline order by HelpID desc";
+					$Query="SELECT HelpID,CONCAT('[',Replied,'] ',AppName) as `AppName` FROM ".MySQL_Pre."Helpline order by Replied,HelpID desc";
 					$Data->show_sel("HelpID","AppName",$Query,$_POST['ReplyTo']);
 					?>
 				</select> <b>Show in FAQ:</b><input type="radio" id="ShowFAQ"
@@ -60,12 +60,12 @@ initpage();
 					$PostData['Subject']="Helpline Reply from Paschim Medinipur Judgeship";
 					$PostData['Body']=HelplineReply($PostData['AppName'], $PostData['TxtQry'], $PostData['ReplyTxt']);
 					
-					$_SESSION['Msg']=$NewCURL->get("http://recruitment.paschimmedinipur.org/MyPHPMailer.php?AppName=".$PostData['AppName']."&AppEmail=".$PostData['AppEmail']."&Subject=".$PostData['Subject']."&Body=".$PostData['Body']);
-					$_SESSION['Msg']=$_SESSION['Msg'].' Curl: '. function_exists('curl_version') ? 'Enabled' : 'Disabled';
+					//$_SESSION['Msg']=$NewCURL->get("http://recruitment.paschimmedinipur.org/MyPHPMailer.php?AppName=".$PostData['AppName']."&AppEmail=".$PostData['AppEmail']."&Subject=".$PostData['Subject']."&Body=".$PostData['Body']);
+					//$_SESSION['Msg']=$_SESSION['Msg'].' Curl: '. function_exists('curl_version') ? 'Enabled' : 'Disabled';
 					
 					ShowMsg();
 				}
-				$Data->do_sel_query("Select * from ".MySQL_Pre."Helpline Where Replied!=1 Order by HelpID DESC");
+				$Data->do_sel_query("Select * from ".MySQL_Pre."Helpline Where Replied!=1 Order by Replied,HelpID DESC");
 			}
 			else
 				$Data->do_sel_query("Select * from ".MySQL_Pre."Helpline where Replied<2 Order by HelpID DESC");
