@@ -1,5 +1,4 @@
-﻿<?php
-//ini_set('display_errors','On');
+﻿<?php 
 require_once( 'library.php'); 
 initpage();
 ?>
@@ -32,8 +31,8 @@ initpage();
 <?php
 	//UniqueRandAlpha();
 	$Data=new DB();
-	$Qry="Select R.ResID,PostName,PostGroup,PayScale,Category,Fees,Vacancies,count(*) From ".MySQL_Pre."Posts P,".MySQL_Pre."Categories C,".MySQL_Pre."Reserved R,".MySQL_Pre."Applications A"
-			." Where P.PostID=R.PostID AND C.CatgID=R.CatgID AND R.ResID=A.ResID group by R.ResID";
+	$Qry="Select PostName,PostGroup,PayScale,Category,Fees,Vacancies From ".MySQL_Pre."Posts P,".MySQL_Pre."Categories C,".MySQL_Pre."Reserved R"
+			." Where P.PostID=R.PostID AND C.CatgID=R.CatgID";
 	$Data->ShowTable($Qry);
 	$Data->do_close();
 ?>

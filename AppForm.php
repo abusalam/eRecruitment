@@ -79,6 +79,7 @@ $(function() {
 				<?php 
 				break;
 			case "AppForm":
+				/*
 				?>
 				<h2>eRecruitment Application Form</h2>
 				<?php ShowMsg(); ?>
@@ -182,7 +183,8 @@ $(function() {
 					<div style="clear:both;"></div>
 				</form>
 				<?php 
-				$Data->do_close();
+				$Data->do_close();*/
+				echo "<h2>Last Date of online Application is over.</h2>";
 				break;
 			case "VerifyData":
 					?>

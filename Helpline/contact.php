@@ -10,12 +10,11 @@ if(!$valid || (strlen(GetVal($_POST,'feed_txt'))>1024) || (strlen(GetVal($_POST,
 	name="feed_frm" method="post"
 	action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>"
 	style="text-align: left;">
-	<b>Your Name: </b><br /> <input size="50" maxlength="50" type="text"
+	<b>Your Applicant ID: </b><br /> <input size="10" maxlength="4" type="text"
 		name="v_name" value="<?php echo htmlspecialchars(GetVal($_POST,'v_name'));?>" />
 	<br /> <b>Your E-Mail: </b><br /> <input size="50" maxlength="50"
 		type="text" name="v_email"
-		value="<?php echo htmlspecialchars(GetVal($_POST,'v_email'));?>" /> <br /> <b>Problem
-		&amp; Suggestions : </b><span id="info">(Max: 1024 chars)</span><br />
+		value="<?php echo htmlspecialchars(GetVal($_POST,'v_email'));?>" /> <br /> <b>Problem: </b><span id="info">(Max: 1024 chars)</span><br />
 	<?php 
 	echo '<textarea rows="4" cols="60" style="height: 200px; margin: 0px;"'
 		.'name="feed_txt" onkeyup="limitChars(this, 1024, \'info\')">'
