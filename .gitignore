@@ -162,3 +162,6 @@ pip-log.txt
 # Mac crap
 .DS_Store
 eMailConfig.php
+/nbproject/private//crop1.php
+/crop.php
+/phpinfo.php
