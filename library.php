@@ -3,6 +3,30 @@
 require_once('database.php');
 require_once('functions.php');
 
+function Html5Header($PageTitle = "Paschim Medinipur") {
+  $AppTitle = AppTitle;
+  echo '<!DOCTYPE html>';
+  echo '<html xmlns="http://www.w3.org/1999/xhtml">';
+  echo '<head>';
+  echo "<title>{$PageTitle} - {$AppTitle}</title>";
+  echo '<meta name="robots" content="noarchive,noodp">';
+  echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+}
+
+function jQueryInclude() {
+  echo '<link type="text/css" href="css/ui-lightness/jquery-ui-1.10.2.custom.min.css" rel="Stylesheet" />'
+  . '<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>'
+  . '<script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script>';
+}
+
+function IncludeJS($JavaScript) {
+  echo '<script type="text/javascript" src="' . $JavaScript . '"></script>';
+}
+
+function IncludeCSS($CSS = "css/Style.css") {
+  echo '<link type="text/css" href="' . $CSS . '" rel="Stylesheet" />';
+}
+
 function initpage() {
   session_start();
   $sess_id = md5(microtime());
@@ -33,8 +57,7 @@ function initHTML5page() {
   setcookie("Client_SID", $sess_id, (time() + (LifeTime * 60)));
   $_SESSION['Client_SID'] = $sess_id;
   $_SESSION['LifeTime'] = time();
-  echo '<!DOCTYPE html>';
-  echo '<html>';
+  Html5Header();
   $t = (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "");
   $reg = new DB();
   $reg->do_ins_query("INSERT INTO " . MySQL_Pre . "Logs(IP,URL,UserAgent,Referrer,SessionID) values"

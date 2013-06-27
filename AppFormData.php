@@ -39,7 +39,7 @@ elseif ((GetVal($_POST, 'ChkDeclr') == "1") && ($_SESSION['Step'] == "AppForm"))
   $Query = "Select A.ResID as `AppPostID`, AppName, GuardianName, AppEmail, Qualification as AppQlf, AppMobile, Fees, DOB as AppDOB, Sex as AppSex,"
           . "Religion as AppRel, BelongsFrom as AppCaste, Nationality as AppNation, PreAddr as AppPreA,PrePinCode as AppPrePin,"
           . "PermAddr as AppPerA, PermPinCode as AppPerPin, PhyHand as AppPH,ComKnowledge as AppCS, OrdTyping as AppOT,ShortHand as AppSH,"
-          . "GovServent as AppGS, AppOQ, FiledOn,Status,LastUpdate from " . MySQL_Pre . "Applications A," . MySQL_Pre . "Reserved R," . MySQL_Pre . "AppIDs P "
+          . "GovServent as AppGS, AppOQ, FiledOn,Status,LastUpdate,AppSlNo from " . MySQL_Pre . "Applications A," . MySQL_Pre . "Reserved R," . MySQL_Pre . "AppIDs P "
           . "Where A.ResID=R.ResID AND P.AppSlNo=A.AppID AND P.AppID='{$_SESSION['AppID']}' AND AppMobile='" . $Data->SqlSafe(htmlspecialchars($_POST['AppMobile'])) . "'";
   $Found = $Data->do_sel_query($Query);
   if ($Found > 0) {
@@ -82,9 +82,13 @@ elseif ((GetVal($_POST, 'ChkDeclr') == "1") && ($_SESSION['Step'] == "AppForm"))
     $PhotoInserted = $Data->do_ins_query($Qry);
     $PhotoID = mysql_insert_id($Data->conn);
     if ($PhotoInserted > 0) {
-      $_SESSION['Msg'] = "<b>Message:</b> Photo uploaded for your Application ID: {$_SESSION['AppID']}";
-      $_SESSION['PhotoID'] = $PhotoID;
-      $_SESSION['Step'] = "ShowAdmit";
+      $RollNo = 1 + $Data->do_max_query("Select MAX(RollNo) from " . MySQL_Pre . "Applications Where ResID={$_SESSION['PostData']['AppPostID']}");
+      $RollInserted = $Data->do_ins_query("Update " . MySQL_Pre . "Applications Set RollNo={$RollNo} Where AppID={$_SESSION['PostData']['AppSlNo']}");
+      if ($RollInserted > 0) {
+        $_SESSION['Msg'] = "<b>Message:</b> Photo uploaded for your Application ID: {$_SESSION['AppID']}";
+        $_SESSION['PhotoID'] = $PhotoID;
+        $_SESSION['Step'] = "ShowAdmit";
+      }
     } else {
       $_SESSION['Msg'] = "<b>Message:</b> Unable to upload your photo.";
       $_SESSION['Step'] = "InitAdmit";

@@ -1,29 +1,23 @@
 <?php
-ini_set('display_errors', 'On');
-
-use LibDB as FN;
-
-require_once('./login/functions.php');
-initHTML5page();
+require_once('library.php');
+if (GetVal($_POST, 'CmdPrint') == "Print AdmitCard") {
+  session_start();
+  $_SESSION['Step'] = "ShowAdmit";
+  include_once 'ShowAdmit.php';
+}
+else
+  initHTML5page();
+IncludeCSS();
+jQueryInclude();
+IncludeCSS("css/jquery.Jcrop.css");
+IncludeJS("js/jquery.Jcrop.js");
 ?>
-<head>
-  <title>eRecruitment Application Status - Paschim Medinipur</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="robots" content="noarchive,noodp" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
-  <meta name="description" content="Online application for recruitment of different posts in Paschim Medinipur"/>
-  <?php
-  FN\IncludeCSS();
-  FN\jQueryInclude();
-  FN\IncludeCSS("css/jquery.Jcrop.css");
-  FN\IncludeJS("js/jquery.Jcrop.js");
-  ?>
-  <style type="text/css">
-    form div.upload { overflow:hidden; }
+<style type="text/css">
+  form div.upload { overflow:hidden; }
 
-    form div.upload label { font-weight:bold; display:block; margin-bottom:0.25em; }
+  form div.upload label { font-weight:bold; display:block; margin-bottom:0.25em; }
 
-  </style>
+</style>
 </head>
 <body>
   <div class="TopPanel">
@@ -47,11 +41,11 @@ initHTML5page();
         <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
           <div class="FieldGroup">
             <h3>Applicant ID:</h3>
-            <input type="text" name="AppID" maxlength="4" />
+            <input type="text" name="AppID" maxlength="4" value="UXML" />
           </div>
           <div class="FieldGroup">
             <h3>Mobile No:</h3>
-            <input type="text" name="AppMobile" maxlength="10" />
+            <input type="text" name="AppMobile" maxlength="10" value="8016057336" />
           </div>
           <input type="submit" value="Show Status" name="CmdShow" />
           <div style="clear:both;"></div>
@@ -212,8 +206,21 @@ initHTML5page();
         //$_SESSION['Step'] = "InitAdmit";
         ?>
         <h2>eRecruitment Applicant Photo</h2>
-        <img src="ShowPhoto.php" />
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+          <img  style="background-color: white;padding: 5px;" src="ShowPhoto.php" />
+          <input type="submit" value="Print AdmitCard" name="CmdPrint" />
+          <div style="clear:both;"></div>
+        </form>
         <?php
+        //if (GetVal($_POST, "CmdPrint") === "Print AdmitCard")
+        $_SESSION['Step'] = "Init";
+        $Query = "Select CONCAT('E/',ResID,'/',`RollNo`) as RollNo,AppName, GuardianName,CONCAT(`PreAddr`,'Pin:',`PrePinCode`) as Address,I.AppID,AppMobile as MobileNo "
+                . "from " . MySQL_Pre . "Applications A," . MySQL_Pre . "AppIDs I," . MySQL_Pre . "Photos P "
+                . "Where I.AppSlNo=A.AppID AND P.AppID=I.AppID AND I.AppID='{$_SESSION['AppID']}'";
+        //echo $Query;
+        //$Data = new DB();
+        //$Data->ShowTable($Query);
+        //$Data->do_close();
         break;
     }
     ?>
