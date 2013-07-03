@@ -23,6 +23,7 @@ class PDF extends PDF_MemImage {
     $this->PDF_MemImage("P", "mm", "A4");
     $this->SetAuthor('eRecruitment 2013 Paschim Medinipur 1.0');
     $this->SetCreator('NIC Paschim Medinipur');
+    $this->SetCompression(TRUE);
     $this->AliasNbPages();
     $this->SetMargins(10, 10, 10);
     $this->SetAutoPageBreak(true, 5);

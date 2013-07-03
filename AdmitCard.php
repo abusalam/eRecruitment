@@ -37,18 +37,18 @@ IncludeJS("js/jquery.Jcrop.js");
     switch ($_SESSION['Step']) {
       default:
         ?>
-        <h2>eRecruitment Application Status</h2>
+        <h2>eRecruitment Admit</h2>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
           <div class="FieldGroup">
             <h3>Applicant ID:</h3>
-            <input type="text" name="AppID" maxlength="4" value="UXML" />
+            <input type="text" name="AppID" maxlength="4" />
           </div>
           <div class="FieldGroup">
             <h3>Mobile No:</h3>
-            <input type="text" name="AppMobile" maxlength="10" value="8016057336" />
+            <input type="text" name="AppMobile" maxlength="10" />
           </div>
-          <input type="submit" value="Show Status" name="CmdShow" />
           <div style="clear:both;"></div>
+          <input type="submit" value="Show Status" name="CmdShow" />
         </form>
         <?php
         break;
@@ -140,6 +140,7 @@ IncludeJS("js/jquery.Jcrop.js");
           </div>
           <div style="clear:both;"></div>
           <input type="submit" value="Proceed To Upload Photo" name="CmdPhoto" />
+          <input type="submit" value="Cancel" name="CmdPhoto" />
         </form>
         <?php
         break;
@@ -208,8 +209,8 @@ IncludeJS("js/jquery.Jcrop.js");
         <h2>eRecruitment Applicant Photo</h2>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
           <img  style="background-color: white;padding: 5px;" src="ShowPhoto.php" />
-          <input type="submit" value="Print AdmitCard" name="CmdPrint" />
           <div style="clear:both;"></div>
+          <input type="submit" value="Print AdmitCard" name="CmdPrint" />
         </form>
         <?php
         //if (GetVal($_POST, "CmdPrint") === "Print AdmitCard")

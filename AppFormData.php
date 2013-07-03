@@ -54,19 +54,27 @@ elseif ((GetVal($_POST, 'ChkDeclr') == "1") && ($_SESSION['Step'] == "AppForm"))
     }
     $_SESSION['Msg'] = "<b>Applicant ID:</b> " . $_SESSION['AppID'];
   } else {
-    $_SESSION['Msg'] = "<b>Message:</b>Application not found!";
+    $FoundAppID = $Data->do_max_query("Select AppID from " . MySQL_Pre . "AppIDMobileMap "
+            . "Where `AppMobile` like '%" . GetVal($_POST, "AppMobile") . "%'");
+    $MobileNo = GetVal($_POST, "AppMobile");
+    if ($FoundAppID === 0) {
+      $_SESSION['Msg'] = "<b>Mobile No: {$MobileNo}</b> is not registered at the time of online submission of your application.";
+    } else {
+      $_SESSION['Msg'] = "<b>To know your Application ID:</b> SEND SMS PMEDI GetID to 9211728082"
+              . " from your registered Mobile No:{$MobileNo}";
+    }
     $_SESSION['Step'] = "Init";
   }
   $Data->do_close();
 } elseif ((GetVal($_POST, 'CmdPhoto') == "Proceed To Upload Photo") && ($_SESSION['Step'] == "ShowData")) {
   $_SESSION['Step'] = "InitAdmit";
 } elseif ((GetVal($_POST, 'CmdSaveAdmit') == "Generate Admit") && ($_SESSION['Step'] == "InitAdmit")) {
-  $targ_w = $_POST['w'];
-  $targ_h = $_POST['h'];
+  $targ_w = 180;
+  $targ_h = 240;
   $jpeg_quality = 90;
   $img_r = imagecreatefromstring(file_get_contents($_FILES['AdmitPhoto']['tmp_name']));
   $dst_r = ImageCreateTrueColor($targ_w, $targ_h);
-  $ImgCopied = imagecopy($dst_r, $img_r, 0, 0, $_POST['x'], $_POST['y'], $_POST['w'], $_POST['h']);
+  $ImgCopied = imagecopyresampled($dst_r, $img_r, 0, 0, $_POST['x'], $_POST['y'], $targ_w, $targ_h, $_POST['w'], $_POST['h']);
   if ($ImgCopied !== false) {
     ob_start();
     imagejpeg($dst_r, null, $jpeg_quality);
@@ -88,6 +96,13 @@ elseif ((GetVal($_POST, 'ChkDeclr') == "1") && ($_SESSION['Step'] == "AppForm"))
         $_SESSION['Msg'] = "<b>Message:</b> Photo uploaded for your Application ID: {$_SESSION['AppID']}";
         $_SESSION['PhotoID'] = $PhotoID;
         $_SESSION['Step'] = "ShowAdmit";
+        $SMSData = "Name: " . $_SESSION['PostData']['AppName']
+                . "(" . $_SESSION['PostData']['AppPostID'] . "-" . $_SESSION['PostData']['AppSex'] . ") [" . $_SESSION['AppID'] . "]"
+                . "\r\nMobile:" . $_SESSION['PostData']['AppMobile']
+                . "\r\nDOB:" . $_SESSION['PostData']['AppDOB']
+                . "\r\nTotal: " . $Data->do_max_query("Select count(*) from " . MySQL_Pre . "Admits")
+                . "\r\nIP:" . $_SERVER['REMOTE_ADDR'] . "\r\n" . date("l d F Y g:i:s A", time());
+        $Data->SendSMS($SMSData);
       }
     } else {
       $_SESSION['Msg'] = "<b>Message:</b> Unable to upload your photo.";
@@ -95,8 +110,8 @@ elseif ((GetVal($_POST, 'ChkDeclr') == "1") && ($_SESSION['Step'] == "AppForm"))
     }
     $Data->do_close();
   }
-} elseif ((GetVal($_POST, 'CmdGetAdmit') == "Download") && ($_SESSION['Step'] == "ShowAdmit")) {
-
+} elseif ((GetVal($_POST, 'CmdPhoto') == "Cancel") && ($_SESSION['Step'] == "ShowData")) {
+  $_SESSION['Step'] = "Init";
 }
 
 if (GetVal($_POST, 'CmdPrint') == "Search") {

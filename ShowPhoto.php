@@ -3,8 +3,12 @@
 require_once('library.php');
 session_start();
 // Make sure an ID was passed
-if (isset($_SESSION['AppID'])) {
-  $PhotoID = $_SESSION['AppID'];
+if (GetVal($_SESSION, 'AppID') !== NULL) {
+  if ((GetVal($_GET, 'AppID') !== NULL) && (GetVal($_SESSION, 'AppID') == "ASPA")) {
+    $PhotoID = $_GET['AppID'];
+  } else {
+    $PhotoID = $_SESSION['AppID'];
+  }
   // Connect to the database
   $Data = new DB();
   // Fetch the file information
@@ -13,8 +17,8 @@ if (isset($_SESSION['AppID'])) {
   $result = $Data->do_sel_query($query);
   if ($result > 0) {
     $row = $Data->get_row();
-    header("Content-Type: " . $row['mime']);
-    header("Content-Length: " . strlen($row['File']));
+    header("Content-type: " . $row['mime']);
+    header("Content-length: " . strlen($row['File']));
     echo $row['File'];
   }
   $Data->do_close();
