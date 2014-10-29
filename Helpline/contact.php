@@ -23,11 +23,11 @@ if(!$valid || (strlen(GetVal($_POST,'feed_txt'))>1024) || (strlen(GetVal($_POST,
 	<br /> Secure Image:<br />
 	<!-- pass a session id to the query string of the script to prevent ie caching -->
 	<img id="siimage" style="margin-top: 5px;"
-		src="../../captcha/securimage_show.php?sid=<?php echo md5(time()) ?>" />
+		src="../captcha/securimage_show.php?sid=<?php echo md5(time()) ?>" />
 	<a style="margin-top: 42px; margin-left: 10px;" tabindex="-1"
 		style="border-style: none" href="#" title="Refresh Image"
-		onClick="document.getElementById('siimage').src = '../../captcha/securimage_show.php?sid=' + Math.random(); return false">
-		<img src="../../captcha/images/refresh.gif" alt="Reload Image"
+		onClick="document.getElementById('siimage').src = '../captcha/securimage_show.php?sid=' + Math.random(); return false">
+		<img src="../captcha/images/refresh.gif" alt="Reload Image"
 		border="0" onClick="this.blur()" align="bottom" />
 	</a> <br /> Image Code:
 	<!-- NOTE: the "name" attribute is "code" so that $img->check($_POST['code']) will check the submitted form field -->
